@@ -2,6 +2,7 @@ import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/ui/LandingScreen/components/page_view_welcome.dart';
+import 'package:btliot/ui/get_time/get_time.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,16 +57,24 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     size: size,
                     title: 'Bật tắt tự động\ntheo ánh sáng',
                     icon: Icons.highlight_outlined,
+                    disapble: true,
                     onTap: () {},
                   ),
                   ControlButton(
                     size: size,
                     title: 'Tắt đèn \ntự động ',
                     icon: Icons.lightbulb_outline,
-                    onTap: () {},
+                    disapble: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                   ),
                   ControlButton(
                     size: size,
+                    disapble: true,
                     title: 'Bật đèn \ntự động',
                     icon: Icons.highlight,
                     onTap: () {},
@@ -81,15 +90,18 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     title: 'Đóng cửa \nkhi trời mưa',
                     icon: Icons.window_outlined,
                     onTap: () {},
+                    disapble: true,
                   ),
                   ControlButton(
                     size: size,
                     title: 'Hẹn giờ\nđóng cửa',
                     icon: Icons.sensor_window_outlined,
                     onTap: () {},
+                    disapble: true,
                   ),
                   ControlButton(
                     size: size,
+                    disapble: true,
                     title: 'Hẹn giờ\nmở cửa',
                     icon: Icons.sensor_window_rounded,
                     onTap: () {},
@@ -105,18 +117,21 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     title: 'Bật tắt theo\nnhiệt độ',
                     icon: Icons.wind_power,
                     onTap: () {},
+                    disapble: true,
                   ),
                   ControlButton(
                     size: size,
                     title: 'Hẹn giờ\nbật',
                     icon: Icons.wind_power_rounded,
                     onTap: () {},
+                    disapble: true,
                   ),
                   ControlButton(
                     size: size,
                     title: 'Hẹn giờ\ntắt',
                     icon: Icons.wind_power_outlined,
                     onTap: () {},
+                    disapble: true,
                   ),
                 ],
               ),

@@ -7,12 +7,14 @@ class ControlButton extends StatefulWidget {
       required this.size,
       required this.icon,
       required this.title,
+      this.disapble,
       required this.onTap});
 
   final Size size;
   final IconData icon;
   final String title;
   final Function onTap;
+  final bool? disapble;
   @override
   _ControlButtonState createState() => _ControlButtonState();
 }
@@ -21,20 +23,24 @@ class _ControlButtonState extends State<ControlButton> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
+    if (widget.disapble == true) isSelected = true;
     return Column(
       children: [
         GestureDetector(
           onTap: () {
             widget.onTap.call();
-            setState(() {
-              isSelected = !isSelected;
-            });
+            if (widget.disapble == true) {
+            } else if (widget.disapble != true) {
+              setState(() {
+                isSelected = !isSelected;
+              });
+            }
           },
           child: Container(
             height: widget.size.height * 0.105,
             width: widget.size.width * 0.21,
             decoration: BoxDecoration(
-              color: isSelected ? kOrangeColor : Colors.white,
+              color: (isSelected ? kOrangeColor : Colors.white),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(

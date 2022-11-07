@@ -1,22 +1,20 @@
+import 'package:btliot/const.dart';
 import 'package:flutter/material.dart';
 
-class StatusButton extends StatelessWidget {
-  StatusButton({
-    required Key key,
-    required this.size,
-  }) : super(key: key);
-
+class StatusButton2 extends StatelessWidget {
+  StatusButton2({super.key, required this.size, this.isActive});
+  final bool? isActive;
   final Size size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: size.height * 0.15,
-      width: size.width * 0.35,
+      width: size.width * 0.4,
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 8,
@@ -40,7 +38,7 @@ class StatusButton extends StatelessWidget {
                 Icon(
                   Icons.rss_feed,
                   size: 55,
-                  color: Colors.grey.shade400,
+                  color: isActive == true ? kOrangeColor : Colors.grey.shade400,
                 ),
                 //StatusButton(size: size, key: null,),
               ],
@@ -48,7 +46,7 @@ class StatusButton extends StatelessWidget {
             SizedBox(
               height: size.height * 0.01,
             ),
-            Text(
+            const Text(
               'SENSORS',
               style: TextStyle(
                   fontSize: 16,
@@ -56,8 +54,8 @@ class StatusButton extends StatelessWidget {
                   color: Colors.black54),
             ),
             Text(
-              'ON',
-              style: TextStyle(
+              isActive == true ? 'ON' : "OFF",
+              style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.lightGreen),
