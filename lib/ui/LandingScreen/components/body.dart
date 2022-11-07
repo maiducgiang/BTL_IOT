@@ -1,7 +1,8 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
-import 'package:btliot/ui/components/sensor_screen.dart';
+import 'package:btliot/ui/LandingScreen/components/page_view_welcome.dart';
+import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,87 +16,113 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(height: size.height * 0.1),
-          const Center(
-            child: Text(
-              'Chào mừng!\nĐến với ứng dụng nhà thông minh',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 36,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Nâng cao',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
-          SizedBox(height: size.height * 0.05),
-          const Center(
-            child: Text(
-              'Ứng dụng giúp điều khiển ngôi nhà\n thông minh của bạn',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: kDarkGreyColor, fontSize: 23),
-            ),
+        ),
+        leading: InkWell(
+          onTap: (() {
+            Navigator.pop(context);
+          }),
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 24,
+            color: kDarkGreyColor,
           ),
-          SizedBox(height: size.height * 0.05),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        backgroundColor: kBgColor,
+        elevation: 0,
+      ),
+      backgroundColor: kBgColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ControlButton(
-                size: size,
-                title: 'Maintenance\nRequests',
-                icon: Icons.settings_outlined,
+              const SizedBox(height: 30),
+              const PageViewWelcome(),
+              SizedBox(height: size.height * 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ControlButton(
+                    size: size,
+                    title: 'Bật tắt tự động\ntheo ánh sáng',
+                    icon: Icons.highlight_outlined,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Tắt đèn \ntự động ',
+                    icon: Icons.lightbulb_outline,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Bật đèn \ntự động',
+                    icon: Icons.highlight,
+                    onTap: () {},
+                  ),
+                ],
               ),
-              ControlButton(
-                size: size,
-                title: 'Integrations\n ',
-                icon: Icons.grain,
+              SizedBox(height: size.height * 0.02),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ControlButton(
+                    size: size,
+                    title: 'Đóng cửa \nkhi trời mưa',
+                    icon: Icons.window_outlined,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Hẹn giờ\nđóng cửa',
+                    icon: Icons.sensor_window_outlined,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Hẹn giờ\nmở cửa',
+                    icon: Icons.sensor_window_rounded,
+                    onTap: () {},
+                  ),
+                ],
               ),
-              ControlButton(
-                size: size,
-                title: 'Light\nControl',
-                icon: Icons.highlight,
+              SizedBox(height: size.height * 0.02),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ControlButton(
+                    size: size,
+                    title: 'Bật tắt theo\nnhiệt độ',
+                    icon: Icons.wind_power,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Hẹn giờ\nbật',
+                    icon: Icons.wind_power_rounded,
+                    onTap: () {},
+                  ),
+                  ControlButton(
+                    size: size,
+                    title: 'Hẹn giờ\ntắt',
+                    icon: Icons.wind_power_outlined,
+                    onTap: () {},
+                  ),
+                ],
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ControlButton(
-                size: size,
-                title: 'Leak\nDetector',
-                icon: Icons.opacity,
-              ),
-              ControlButton(
-                size: size,
-                title: 'Temperature\nControl ',
-                icon: Icons.ac_unit,
-              ),
-              ControlButton(
-                size: size,
-                title: 'Guest\nAccess',
-                icon: Icons.vpn_key,
-              ),
-            ],
-          ),
-          SizedBox(height: size.height * 0.05),
-          DefaultButton(
-            size: size,
-            title: "Next",
-            press: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => SensorScreen(),
-                ),
-              );
-            },
-          ),
-          SizedBox(height: size.height * 0.05),
-        ],
+        ),
       ),
     );
   }

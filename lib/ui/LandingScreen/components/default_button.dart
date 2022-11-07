@@ -1,6 +1,4 @@
 import 'package:btliot/const.dart';
-import 'package:btliot/ui/components/sensor_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DefaultButton extends StatelessWidget {
@@ -19,12 +17,13 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => SensorScreen(),
-          ),
-        );
+        press.call();
+        // Navigator.push(
+        //   context,
+        //   CupertinoPageRoute(
+        //     builder: (context) => SensorScreen(),
+        //   ),
+        // );
       },
       child: Container(
         height: size.height * 0.07,
@@ -45,11 +44,11 @@ class DefaultButton extends StatelessWidget {
             ),
           ],
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Next',
-            style: TextStyle(
-              color: Colors.black,
+            title,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

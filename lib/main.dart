@@ -1,4 +1,5 @@
-import 'package:btliot/ui/LandingScreen/landing_screen.dart';
+import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
+import 'package:btliot/ui/signin/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp2 extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'Poppins'),
-      home: LandingScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/extension/date_formatting.dart';
+import 'package:btliot/ui/LandingScreen/components/control_button.dart';
+import 'package:btliot/ui/LandingScreen/components/default_button.dart';
+import 'package:btliot/ui/LandingScreen/landing_screen.dart';
 import 'package:flutter/material.dart';
 
 class SensorScreenBody extends StatefulWidget {
@@ -37,7 +40,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                   style: TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 24,
                   ),
                 ),
                 Container(
@@ -142,6 +145,80 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                 ),
               ],
             ),
+            SizedBox(height: size.height * 0.05),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ControlButton(
+                  size: size,
+                  title: 'Điều khiển \nnâng cao',
+                  icon: Icons.settings_outlined,
+                  onTap: () {},
+                ),
+                ControlButton(
+                  size: size,
+                  title: 'Điều khiển \nquạt ',
+                  icon: Icons.wind_power,
+                  onTap: () {},
+                ),
+                ControlButton(
+                  size: size,
+                  title: 'Điều khiển\nđèn',
+                  icon: Icons.highlight,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            SizedBox(height: size.height * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ControlButton(
+                  size: size,
+                  title: 'Đóng mở \ncửa sổ',
+                  icon: Icons.window_outlined,
+                  onTap: () {},
+                ),
+                ControlButton(
+                  size: size,
+                  title: 'Nhiệt độ\n trong phòng ',
+                  icon: Icons.ac_unit,
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   CupertinoPageRoute(
+                    //     builder: (context) => SensorScreen(),
+                    //   ),
+                    // );
+                  },
+                ),
+                ControlButton(
+                  size: size,
+                  title: 'Điều khiển\n quạt',
+                  icon: Icons.vpn_key,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            Expanded(child: Container()),
+            SizedBox(height: size.height * 0.05),
+            DefaultButton(
+              size: size,
+              title: "Điều khiển nâng cao",
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LandingScreen()),
+                );
+                // Navigator.push(
+                //   context,
+                //   CupertinoPageRoute(
+                //     builder: (context) => LandingScreen(),
+                //   ),
+                // );
+              },
+            ),
+            SizedBox(height: size.height * 0.05),
           ],
         ),
       ),

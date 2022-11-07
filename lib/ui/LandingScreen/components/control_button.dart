@@ -2,17 +2,17 @@ import 'package:btliot/const.dart';
 import 'package:flutter/material.dart';
 
 class ControlButton extends StatefulWidget {
-  const ControlButton({
-    super.key,
-    required this.size,
-    required this.icon,
-    required this.title,
-  });
+  const ControlButton(
+      {super.key,
+      required this.size,
+      required this.icon,
+      required this.title,
+      required this.onTap});
 
   final Size size;
   final IconData icon;
   final String title;
-
+  final Function onTap;
   @override
   _ControlButtonState createState() => _ControlButtonState();
 }
@@ -25,6 +25,7 @@ class _ControlButtonState extends State<ControlButton> {
       children: [
         GestureDetector(
           onTap: () {
+            widget.onTap.call();
             setState(() {
               isSelected = !isSelected;
             });

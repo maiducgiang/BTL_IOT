@@ -1,5 +1,6 @@
 import 'package:btliot/const.dart';
-import 'package:btliot/ui/components/body.dart';
+
+import 'package:btliot/ui/sensorScreen/widget/body.dart';
 import 'package:flutter/material.dart';
 
 class SensorScreen extends StatelessWidget {
