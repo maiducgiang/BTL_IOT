@@ -3,8 +3,14 @@ import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/ui/LandingScreen/landing_screen.dart';
+import 'package:btliot/ui/connect_host/connect_host.dart';
+import 'package:btliot/ui/sensorScreen/getx/getx.dart';
+import 'package:btliot/ui/sensorScreen/widget/card.dart';
+import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:btliot/ui/sensorScreen/widget/status_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 
 class SensorScreenBody extends StatefulWidget {
   @override
@@ -13,6 +19,8 @@ class SensorScreenBody extends StatefulWidget {
 
 class _SensorScreenBodyState extends State<SensorScreenBody> {
   late DateTime timeNow = DateTime.now();
+  late bool connect = false;
+  // final controller = Get.put(Appcontroller(connect: "false".obs));
   @override
   void initState() {
     timeNow = DateTime.now();
@@ -153,10 +161,36 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                 children: [
                   StatusButton2(
                     size: MediaQuery.of(context).size,
-                    isActive: true,
+                    isActive: connect,
                   ),
-                  StatusButton2(
-                    size: MediaQuery.of(context).size,
+                  CustomCard(
+                    size: size,
+                    icon: Icon(
+                      Icons.home_outlined,
+                      size: 55,
+                      color: Colors.grey.shade400,
+                    ),
+                    title: "ENTRY",
+                    statusOn: "Connected",
+                    statusOff: "Disconected",
+                    connected: () async {
+                      await concectBroker(disconnect: () {
+                        setState(() {
+                          connect = false;
+                        });
+                      }, connect: () {
+                        setState(() {
+                          connect = true;
+                        });
+                      });
+                      // setState(() {
+                      //   if (client.connectionStatus!.state ==
+                      //       MqttConnectionState.connected) {
+                      //     connect = true;
+                      //   }
+                      // });
+                    },
+                    disconect: () async {},
                   ),
                 ],
               ),
@@ -170,18 +204,39 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                     icon: Icons.settings_outlined,
                     disapble: true,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LandingScreen()),
-                      );
+                      if (connect == false) {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
+                            return CustomCupertinoAlert(
+                              context: context,
+                              title: "Chú ý",
+                              content:
+                                  'Ứng dụng chưa được kết nối. Vui lòng thực hiện kết nối trước khi điều khiển nâng cao',
+                              rightButtonTitle: 'Xác nhận',
+                              rightAction: () async {
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LandingScreen()),
+                        );
+                      }
                     },
                   ),
                   ControlButton(
                     size: size,
                     title: 'Điều khiển \nquạt ',
                     icon: Icons.wind_power,
-                    onTap: () {},
+                    onTap: () {
+                      pushMess("topic/led2", "2");
+                    },
                   ),
                   ControlButton(
                     size: size,

@@ -7,6 +7,9 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'package:btliot/ui/sensorScreen/getx/getx.dart';
+import 'package:btliot/ui/sensorScreen/widget/body.dart';
+import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -28,7 +31,7 @@ final client = MqttServerClient('broker.mqttdashboard.com', 'maiducgiang');
 
 var pongCount = 0; // Pong counter
 
-Future<int> main() async {
+Future<int> concectBroker({Function? connect, Function? disconnect}) async {
   /// A websocket URL must start with ws:// or wss:// or Dart will throw an exception, consult your websocket MQTT broker
   /// for details.
   /// To use websockets add the following lines -:
@@ -73,7 +76,7 @@ Future<int> main() async {
   /// client identifier, any supplied username/password and clean session,
   /// an example of a specific one below.
   final connMess = MqttConnectMessage()
-      .withClientIdentifier('maiducgiang')
+      .withClientIdentifier('Mqtt_MyclientUniqueId')
       .withWillTopic('willtopic') // If you set this you must set a will message
       .withWillMessage('My Will message')
       .startClean() // Non persistent session for testing
@@ -88,10 +91,12 @@ Future<int> main() async {
     await client.connect();
   } on NoConnectionException catch (e) {
     // Raised by the client when connection fails.
+    disconnect!.call();
     print('EXAMPLE::client exception - $e');
     client.disconnect();
   } on SocketException catch (e) {
     // Raised by the socket layer
+    disconnect!.call();
     print('EXAMPLE::socket exception - $e');
     client.disconnect();
   }
@@ -99,7 +104,10 @@ Future<int> main() async {
   /// Check we are connected
   if (client.connectionStatus!.state == MqttConnectionState.connected) {
     print('EXAMPLE::Mosquitto client connected');
+    connect?.call();
   } else {
+    disconnect!.call();
+
     /// Use status here rather than state if you also want the broker return code.
     print(
         'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${client.connectionStatus}');
@@ -108,9 +116,9 @@ Future<int> main() async {
   }
 
   /// Ok, lets try a subscription
-  print('EXAMPLE::Subscribing to the test/lol topic');
-  const topic = 'test/lol'; // Not a wildcard topic
-  client.subscribe(topic, MqttQos.atMostOnce);
+  // print('EXAMPLE::Subscribing to the test/lol topic');
+  // const topic = 'test/lol'; // Not a wildcard topic
+  // client.subscribe(topic, MqttQos.atMostOnce);
 
   /// The client has a change notifier object(see the Observable class) which we then listen to to get
   /// notifications of published updates to each subscribed topic.
@@ -140,17 +148,29 @@ Future<int> main() async {
   /// Lets publish to our topic
   /// Use the payload builder rather than a raw buffer
   /// Our known topic to publish to
-  const pubTopic = 'Dart/Mqtt_client/testtopic';
+  const pubTopic = 'topic/led1';
   final builder = MqttClientPayloadBuilder();
-  builder.addString('Hello from mqtt_client');
+  builder.addString('1');
 
   /// Subscribe to it
-  print('EXAMPLE::Subscribing to the Dart/Mqtt_client/testtopic topic');
+  print('EXAMPLE::Subscribing to the topic/led1 topic');
   client.subscribe(pubTopic, MqttQos.exactlyOnce);
 
   /// Publish it
   print('EXAMPLE::Publishing our topic');
   client.publishMessage(pubTopic, MqttQos.exactlyOnce, builder.payload!);
+  pushMess("topic/led2", "2");
+  // const pubTopic2 = 'topic/led2';
+  // final builder2 = MqttClientPayloadBuilder();
+  // builder2.addString('1234 giang');
+
+  // /// Subscribe to it
+  // print('EXAMPLE::Subscribing to the topic/led2 topic');
+  // client.subscribe(pubTopic, MqttQos.exactlyOnce);
+
+  // /// Publish it
+  // print('EXAMPLE::Publishing our topic');
+  // client.publishMessage(pubTopic2, MqttQos.exactlyOnce, builder2.payload!);
 
   /// Ok, we will now sleep a while, in this gap you will see ping request/response
   /// messages being exchanged by the keep alive mechanism.
@@ -158,15 +178,34 @@ Future<int> main() async {
   await MqttUtilities.asyncSleep(60);
 
   /// Finally, unsubscribe and exit gracefully
-  print('EXAMPLE::Unsubscribing');
-  client.unsubscribe(topic);
+  // print('EXAMPLE::Unsubscribing');
+  // client.unsubscribe(topic);
 
-  /// Wait for the unsubscribe message from the broker if you wish.
-  await MqttUtilities.asyncSleep(2);
-  print('EXAMPLE::Disconnecting');
-  client.disconnect();
-  print('EXAMPLE::Exiting normally');
+  // /// Wait for the unsubscribe message from the broker if you wish.
+  // await MqttUtilities.asyncSleep(2);
+  // print('EXAMPLE::Disconnecting');
+  // client.disconnect();
+  // print('EXAMPLE::Exiting normally');
   return 0;
+}
+
+void pushMess(
+  String toppic,
+  String mess,
+) {
+  final pubTopic = toppic;
+  final builder = MqttClientPayloadBuilder();
+  builder.addString(mess);
+
+  /// Subscribe to it
+  print('EXAMPLE::Subscribing to the topic: ${toppic} ');
+  client.subscribe(pubTopic, MqttQos.exactlyOnce);
+
+  /// Publish it
+  print('EXAMPLE::Publishing our topic message: ${mess}');
+  client.publishMessage(pubTopic, MqttQos.exactlyOnce, builder.payload!);
+
+  return;
 }
 
 /// The subscribed callback

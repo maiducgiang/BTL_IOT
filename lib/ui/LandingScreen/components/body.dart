@@ -65,9 +65,7 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     title: 'Bật tắt\ntheo ánh sáng',
                     icon: Icons.highlight_outlined,
                     disapble: true,
-                    onTap: () async {
-                      await main();
-                    },
+                    onTap: () {},
                   ),
                   ControlButton(
                     size: size,
