@@ -1,6 +1,7 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/components/page_view_welcome.dart';
+import 'package:btliot/ui/connect_host/connect_host.dart';
 import 'package:btliot/ui/get_time/get_time.dart';
 import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,9 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                           isActiveLed = false;
                         });
                       }
+                      // if(isActiveLed){
+                      //   pushMess("toppic", mess)
+                      // }
                     },
                   ),
                   ControlButton(
@@ -152,6 +156,11 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                         setState(() {
                           isActiveWindow = false;
                         });
+                      }
+                      if (isActiveWindow == true) {
+                        pushMess("MQTT_ESP32/AUTOCUA", "1");
+                      } else {
+                        pushMess("MQTT_ESP32/AUTOCUA", "0");
                       }
                     },
                     isSelected: isActiveWindow,
@@ -215,6 +224,11 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                         setState(() {
                           isActiveFan = false;
                         });
+                      }
+                      if (isActiveFan == true) {
+                        pushMess("MQTT_ESP32/AUTODEN", "1");
+                      } else {
+                        pushMess("MQTT_ESP32/AUTODEN", "0");
                       }
                     },
                     isSelected: isActiveFan,
