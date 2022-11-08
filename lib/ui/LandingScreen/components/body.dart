@@ -1,11 +1,8 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
-import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/ui/LandingScreen/components/page_view_welcome.dart';
-import 'package:btliot/ui/connect_host/connect_host.dart';
 import 'package:btliot/ui/get_time/get_time.dart';
-import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:flutter/material.dart';
 
 class LandingScreenBody extends StatefulWidget {
@@ -20,6 +17,97 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
     super.initState();
   }
 
+  final List<int> hour = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ];
+  final List<int> minute = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ];
+  late bool isActiveLed = false;
+  late bool isActiveWindow = false;
+  late bool isActiveFan = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,10 +150,36 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                 children: [
                   ControlButton(
                     size: size,
-                    title: 'Bật tắt\ntheo ánh sáng',
+                    title: 'Bật tắt đèn\ntheo ánh sáng',
                     icon: Icons.highlight_outlined,
-                    disapble: true,
-                    onTap: () {},
+                    isSelected: isActiveLed,
+                    onTap: () {
+                      if (isActiveLed == false) {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
+                            return CustomCupertinoAlert(
+                              context: context,
+                              title: "Thông báo",
+                              content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                              rightButtonTitle: 'Xác nhận',
+                              rightAction: () async {
+                                setState(() {
+                                  isActiveLed = !isActiveLed;
+                                });
+
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        setState(() {
+                          isActiveLed = false;
+                        });
+                      }
+                    },
                   ),
                   ControlButton(
                     size: size,
@@ -96,8 +210,34 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     size: size,
                     title: 'Đóng cửa \nkhi trời mưa',
                     icon: Icons.window_outlined,
-                    onTap: () {},
-                    disapble: true,
+                    onTap: () {
+                      if (isActiveWindow == false) {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
+                            return CustomCupertinoAlert(
+                              context: context,
+                              title: "Thông báo",
+                              content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                              rightButtonTitle: 'Xác nhận',
+                              rightAction: () async {
+                                setState(() {
+                                  isActiveWindow = !isActiveWindow;
+                                });
+
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        setState(() {
+                          isActiveWindow = false;
+                        });
+                      }
+                    },
+                    isSelected: isActiveWindow,
                   ),
                   ControlButton(
                     size: size,
@@ -123,8 +263,34 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     size: size,
                     title: 'Bật tắt theo\nnhiệt độ',
                     icon: Icons.wind_power,
-                    onTap: () {},
-                    disapble: true,
+                    onTap: () {
+                      if (isActiveFan == false) {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
+                            return CustomCupertinoAlert(
+                              context: context,
+                              title: "Thông báo",
+                              content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                              rightButtonTitle: 'Xác nhận',
+                              rightAction: () async {
+                                setState(() {
+                                  isActiveFan = !isActiveFan;
+                                });
+
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        setState(() {
+                          isActiveFan = false;
+                        });
+                      }
+                    },
+                    isSelected: isActiveFan,
                   ),
                   ControlButton(
                     size: size,

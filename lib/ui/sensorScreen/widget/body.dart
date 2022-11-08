@@ -1,15 +1,14 @@
+import 'dart:async';
+
 import 'package:btliot/const.dart';
 import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
-import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/ui/LandingScreen/landing_screen.dart';
 import 'package:btliot/ui/connect_host/connect_host.dart';
-import 'package:btliot/ui/sensorScreen/getx/getx.dart';
 import 'package:btliot/ui/sensorScreen/widget/card.dart';
 import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:btliot/ui/sensorScreen/widget/status_button.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
 class SensorScreenBody extends StatefulWidget {
@@ -20,10 +19,33 @@ class SensorScreenBody extends StatefulWidget {
 class _SensorScreenBodyState extends State<SensorScreenBody> {
   late DateTime timeNow = DateTime.now();
   late bool connect = false;
+  late bool isActiveFan = false;
+  late bool isActiveLed = false;
+  late bool isActiveWindown = false;
+  String doam = "0";
+  String nhietdo = "0";
+  late Timer _timer;
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   @override
   void initState() {
-    timeNow = DateTime.now();
+    _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
+      timeNow = DateTime.now();
+      print("maiducgiang delay" + doam + "" + nhietdo);
+      if (connect == true) {
+        client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+          for (int i = 0; i < c!.length; i++) {
+            final recMess = c[i].payload as MqttPublishMessage;
+            final pt = MqttPublishPayload.bytesToStringAsString(
+                recMess.payload.message);
+            setState(() {
+              if (c[i].topic == "MQTT_ESP32/DOAM") doam = pt;
+              if (c[i].topic == "MQTT_ESP32/NHIETDO") nhietdo = pt;
+            });
+          }
+        });
+      }
+    });
+
     super.initState();
   }
 
@@ -118,16 +140,16 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          '40°',
-                          style: TextStyle(
+                          "$nhietdo°",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.grey,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'TEMPERATURE',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
@@ -137,16 +159,16 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          '59%',
-                          style: TextStyle(
+                          '$doam%',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.grey,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'HUMIDITY',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
@@ -183,6 +205,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                           connect = true;
                         });
                       });
+
                       // setState(() {
                       //   if (client.connectionStatus!.state ==
                       //       MqttConnectionState.connected) {
@@ -202,7 +225,8 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                     size: size,
                     title: 'Điều khiển \nnâng cao',
                     icon: Icons.settings_outlined,
-                    disapble: true,
+                    isSelected: false,
+                    //disapble: true,
                     onTap: () {
                       if (connect == false) {
                         showDialog<void>(
@@ -234,15 +258,33 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                     size: size,
                     title: 'Điều khiển \nquạt ',
                     icon: Icons.wind_power,
+                    isSelected: isActiveFan,
                     onTap: () {
-                      pushMess("topic/led2", "2");
+                      setState(() {
+                        isActiveFan = !isActiveFan;
+                      });
+                      if (isActiveFan == false) {
+                        pushMess("MQTT_ESP32/QUAT", "0");
+                      } else {
+                        pushMess("MQTT_ESP32/QUAT", "1");
+                      }
                     },
                   ),
                   ControlButton(
                     size: size,
                     title: 'Điều khiển\nđèn',
                     icon: Icons.highlight,
-                    onTap: () {},
+                    isSelected: isActiveLed,
+                    onTap: () {
+                      setState(() {
+                        isActiveLed = !isActiveLed;
+                      });
+                      if (isActiveFan == false) {
+                        pushMess("MQTT_ESP32/DEN", "0");
+                      } else {
+                        pushMess("MQTT_ESP32/DEN", "1");
+                      }
+                    },
                   ),
                 ],
               ),
@@ -254,7 +296,18 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                     size: size,
                     title: 'Đóng mở \ncửa sổ',
                     icon: Icons.window_outlined,
-                    onTap: () {},
+                    isSelected: isActiveWindown,
+                    onTap: () {
+                      setState(() {
+                        isActiveWindown = !isActiveWindown;
+                      });
+
+                      if (isActiveWindown == false) {
+                        pushMess("MQTT_ESP32/CUA", "0");
+                      } else {
+                        pushMess("MQTT_ESP32/CUA", "1");
+                      }
+                    },
                   ),
                   ControlButton(
                     size: size,

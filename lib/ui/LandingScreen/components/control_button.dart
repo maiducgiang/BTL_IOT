@@ -2,28 +2,29 @@ import 'package:btliot/const.dart';
 import 'package:flutter/material.dart';
 
 class ControlButton extends StatefulWidget {
-  const ControlButton(
+  ControlButton(
       {super.key,
       required this.size,
       required this.icon,
       required this.title,
       this.disapble,
-      required this.onTap});
+      required this.onTap,
+      this.isSelected});
 
   final Size size;
   final IconData icon;
   final String title;
   final Function onTap;
   final bool? disapble;
+  late bool? isSelected;
   @override
   _ControlButtonState createState() => _ControlButtonState();
 }
 
 class _ControlButtonState extends State<ControlButton> {
-  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    if (widget.disapble == true) isSelected = true;
+    if (widget.disapble == true) widget.isSelected = true;
     return GestureDetector(
       onTap: (() {}),
       child: Column(
@@ -31,22 +32,18 @@ class _ControlButtonState extends State<ControlButton> {
           GestureDetector(
             onTap: () {
               widget.onTap.call();
-              if (widget.disapble == true) {
-              } else if (widget.disapble != true) {
-                setState(() {
-                  isSelected = !isSelected;
-                });
-              }
             },
             child: Container(
               height: widget.size.height * 0.105,
               width: widget.size.width * 0.21,
               decoration: BoxDecoration(
-                color: (isSelected ? kOrangeColor : Colors.white),
+                color: (widget.isSelected ?? false == false
+                    ? kOrangeColor
+                    : Colors.white),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: isSelected
+                    color: widget.isSelected ?? false == false
                         ? kOrangeColor.withOpacity(0.5)
                         : Colors.grey.shade200,
                     blurRadius: 30,
@@ -56,8 +53,9 @@ class _ControlButtonState extends State<ControlButton> {
               ),
               child: Icon(
                 widget.icon,
-                color:
-                    isSelected ? Colors.white : kDarkGreyColor.withOpacity(0.6),
+                color: widget.isSelected ?? false == false
+                    ? Colors.white
+                    : kDarkGreyColor.withOpacity(0.6),
                 size: 45,
               ),
             ),

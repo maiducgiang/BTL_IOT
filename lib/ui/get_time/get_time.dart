@@ -1,6 +1,8 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/extension/date_formatting.dart';
+import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/widget/text_form_field.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -14,8 +16,99 @@ class GetTime extends StatefulWidget {
 class _GetTimeState extends State<GetTime> {
   late DateTime? startDate;
   late DateTime? endDate;
-  late TextEditingController startDateController = TextEditingController();
-  late TextEditingController endDateController = TextEditingController();
+
+  final List<int> hour = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ];
+  final List<int> minute = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ];
+  late String selectedValueHour = "0";
+  late String selectedValueMinute = "0";
+  late TextEditingController hourDateController = TextEditingController();
+  late TextEditingController minuteDateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,36 +149,93 @@ class _GetTimeState extends State<GetTime> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              InkWell(
-                onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: false,
-                      minTime: DateTime.now(),
-                      maxTime: DateTime(2050, 1, 1, 0, 0),
-                      theme: const DatePickerTheme(
-                          headerColor: Colors.white,
-                          backgroundColor: Colors.white,
-                          itemStyle: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                          doneStyle:
-                              TextStyle(color: Colors.white, fontSize: 16)),
-                      onChanged: (date) {
-                    setState(() {
-                      startDate = date;
-                      startDateController =
-                          TextEditingController(text: date.toddMMyyyy());
-                    });
-                  },
-                      onConfirm: (date) {},
-                      currentTime: DateTime.now(),
-                      locale: LocaleType.vi);
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        alignment: Alignment.center,
+                        //padding:  EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(13),
+                          color: Colors.white,
+                          border: Border.all(width: 1, color: Colors.grey),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            iconSize: 0.0,
+                            items: hour
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item.toString(),
+                                      child: Text(item.toString()),
+                                    ))
+                                .toList(),
+                            onChanged: (item) {
+                              setState(() {
+                                selectedValueHour = item.toString();
+                              });
+                            },
+                            value: selectedValueHour,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        " : ",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        alignment: Alignment.center,
+                        //padding:  EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(13),
+                          color: Colors.white,
+                          border: Border.all(width: 1, color: Colors.grey),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            iconSize: 0.0,
+                            items: minute
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item.toString(),
+                                      child: Text(item.toString()),
+                                    ))
+                                .toList(),
+                            onChanged: (item) {
+                              setState(() {
+                                selectedValueMinute = item.toString();
+                              });
+                            },
+                            value: selectedValueMinute,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              DefaultButton(
+                size: size,
+                title: "Xác nhận ",
+                press: () {
+                  Navigator.pop(context);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const ForgotPasswordScreen()),
+                  // );
                 },
-                child: TextFormFieldInput(
-                    enable: false,
-                    controller: startDateController,
-                    hinText: "Ngày tháng năm sinh"),
               ),
             ],
           ),

@@ -16,6 +16,8 @@ class TextFormFieldInput extends StatefulWidget {
       this.password,
       this.onChanged,
       this.enable,
+      this.isHour,
+      this.isMinute,
       this.onTap})
       : super();
   final TextEditingController controller;
@@ -31,6 +33,8 @@ class TextFormFieldInput extends StatefulWidget {
   final bool? enable;
   final Function()? onChanged;
   final Function()? onTap;
+  final bool? isHour;
+  final bool? isMinute;
   @override
   State<TextFormFieldInput> createState() => _TextFormFieldInputState();
 }
@@ -44,7 +48,7 @@ class _TextFormFieldInputState extends State<TextFormFieldInput> {
       enabled: widget.enable,
       enableSuggestions: true,
       obscureText: widget.isPass == true && check == true ? true : false,
-      //autovalidateMode: AutovalidateMode.always,
+      autovalidateMode: AutovalidateMode.always,
       autofillHints: const [AutofillHints.oneTimeCode],
 
       validator: (text) {
@@ -55,6 +59,16 @@ class _TextFormFieldInputState extends State<TextFormFieldInput> {
         }
         if (text!.isEmpty) {
           return "Vui lòng điền đầy đủ thông tin";
+        }
+        if (widget.isHour == true &&
+            int.parse(text) < 0 &&
+            int.parse(text) > 23) {
+          return "null";
+        }
+        if (widget.isMinute == true &&
+            int.parse(text) < 0 &&
+            int.parse(text) > 59) {
+          return "null";
         }
       },
       controller: widget.controller,
