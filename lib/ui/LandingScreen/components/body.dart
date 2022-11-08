@@ -17,94 +17,6 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
     super.initState();
   }
 
-  final List<int> hour = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23
-  ];
-  final List<int> minute = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-    27,
-    28,
-    29,
-    30,
-    31,
-    32,
-    33,
-    34,
-    35,
-    36,
-    37,
-    38,
-    39,
-    40,
-    41,
-    42,
-    43,
-    44,
-    45,
-    46,
-    47,
-    48,
-    49,
-    50,
-    51,
-    52,
-    53,
-    54,
-    55,
-    56,
-    57,
-    58,
-    59
-  ];
   late bool isActiveLed = false;
   late bool isActiveWindow = false;
   late bool isActiveFan = false;
@@ -198,7 +110,12 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     disapble: true,
                     title: 'Bật đèn \ntự động',
                     icon: Icons.highlight,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -243,7 +160,12 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     size: size,
                     title: 'Hẹn giờ\nđóng cửa',
                     icon: Icons.sensor_window_outlined,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                     disapble: true,
                   ),
                   ControlButton(
@@ -251,7 +173,12 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     disapble: true,
                     title: 'Hẹn giờ\nmở cửa',
                     icon: Icons.sensor_window_rounded,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -296,14 +223,24 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                     size: size,
                     title: 'Hẹn giờ\nbật',
                     icon: Icons.wind_power_rounded,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                     disapble: true,
                   ),
                   ControlButton(
                     size: size,
                     title: 'Hẹn giờ\ntắt',
                     icon: Icons.wind_power_outlined,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GetTime()),
+                      );
+                    },
                     disapble: true,
                   ),
                 ],

@@ -5,6 +5,7 @@ import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/landing_screen.dart';
 import 'package:btliot/ui/connect_host/connect_host.dart';
+import 'package:btliot/ui/get_time/get_time.dart';
 import 'package:btliot/ui/sensorScreen/widget/card.dart';
 import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:btliot/ui/sensorScreen/widget/status_button.dart';
@@ -326,7 +327,12 @@ class _SensorScreenBodyState extends State<SensorScreenBody> {
                     size: size,
                     title: 'Độ ẩm \ntrong phòng',
                     icon: Icons.water_drop_outlined,
-                    onTap: () {},
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const GetTime()),
+                      // );
+                    },
                   ),
                 ],
               ),
