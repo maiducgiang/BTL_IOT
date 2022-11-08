@@ -2,6 +2,7 @@ import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
 import 'package:btliot/ui/LandingScreen/components/page_view_welcome.dart';
+import 'package:btliot/ui/connect_host/connect_host.dart';
 import 'package:btliot/ui/get_time/get_time.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +16,14 @@ class LandingScreenBody extends StatefulWidget {
 
 class _LandingScreenBodyState extends State<LandingScreenBody> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -55,10 +62,12 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                 children: [
                   ControlButton(
                     size: size,
-                    title: 'Bật tắt tự động\ntheo ánh sáng',
+                    title: 'Bật tắt\ntheo ánh sáng',
                     icon: Icons.highlight_outlined,
                     disapble: true,
-                    onTap: () {},
+                    onTap: () async {
+                      await main();
+                    },
                   ),
                   ControlButton(
                     size: size,
