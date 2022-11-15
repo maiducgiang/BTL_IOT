@@ -24,12 +24,12 @@ class ControlButton extends StatefulWidget {
 class _ControlButtonState extends State<ControlButton> {
   @override
   Widget build(BuildContext context) {
-    if (widget.disapble == true) widget.isSelected = true;
+    //if (widget.disapble == true) widget.isSelected = true;
     return GestureDetector(
       onTap: (() {}),
       child: Column(
         children: [
-          GestureDetector(
+          InkWell(
             onTap: () {
               widget.onTap.call();
             },

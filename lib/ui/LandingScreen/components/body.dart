@@ -78,6 +78,7 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                               content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
                               rightButtonTitle: 'Xác nhận',
                               rightAction: () async {
+                                pushMess("MQTT_ESP32/AUTODEN", "1");
                                 setState(() {
                                   isActiveLed = !isActiveLed;
                                 });
@@ -88,6 +89,7 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                           },
                         );
                       } else {
+                        pushMess("MQTT_ESP32/AUTODEN", "0");
                         setState(() {
                           isActiveLed = false;
                         });
@@ -140,9 +142,10 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                             return CustomCupertinoAlert(
                               context: context,
                               title: "Thông báo",
-                              content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                              content: 'Cửa sẽ tự động đóng khi trời mưa',
                               rightButtonTitle: 'Xác nhận',
                               rightAction: () async {
+                                pushMess("MQTT_ESP32/AUTOCUA", "1");
                                 setState(() {
                                   isActiveWindow = !isActiveWindow;
                                 });
@@ -153,14 +156,10 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                           },
                         );
                       } else {
+                        pushMess("MQTT_ESP32/AUTOCUA", "0");
                         setState(() {
                           isActiveWindow = false;
                         });
-                      }
-                      if (isActiveWindow == true) {
-                        pushMess("MQTT_ESP32/AUTOCUA", "1");
-                      } else {
-                        pushMess("MQTT_ESP32/AUTOCUA", "0");
                       }
                     },
                     isSelected: isActiveWindow,
@@ -208,9 +207,10 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                             return CustomCupertinoAlert(
                               context: context,
                               title: "Thông báo",
-                              content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                              content: 'Quạt sẽ tự động bặt tắt theo nhiệt độ',
                               rightButtonTitle: 'Xác nhận',
                               rightAction: () async {
+                                pushMess("MQTT_ESP32/AUTOQUAT", "1");
                                 setState(() {
                                   isActiveFan = !isActiveFan;
                                 });
@@ -221,14 +221,10 @@ class _LandingScreenBodyState extends State<LandingScreenBody> {
                           },
                         );
                       } else {
+                        pushMess("MQTT_ESP32/AUTOQUAT", "0");
                         setState(() {
                           isActiveFan = false;
                         });
-                      }
-                      if (isActiveFan == true) {
-                        pushMess("MQTT_ESP32/AUTODEN", "1");
-                      } else {
-                        pushMess("MQTT_ESP32/AUTODEN", "0");
                       }
                     },
                     isSelected: isActiveFan,
