@@ -82,6 +82,8 @@ dependencies:
   mqtt_client: ^9.7.2
   get: ^4.6.5
   dropdown_button2: ^1.8.9
+  flutter_switch: ^0.3.2
+  flutter_bluetooth_serial: ^0.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,3 +1,4 @@
+import 'package:btliot/ui/home_page/home_page.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:btliot/ui/signin/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MyApp2 extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'Poppins'),
-      home: const WelcomeScreen(),
+      home: const MainScreen(),
     );
   }
 }

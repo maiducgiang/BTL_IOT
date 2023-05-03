@@ -25,25 +25,26 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Đăng nhập',
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-          elevation: 0,
-          backgroundColor: kBgColor,
-          automaticallyImplyLeading: false,
-        ),
+
+        // appBar: AppBar(
+        //   title: const Text(
+        //     'Đăng nhập',
+        //     style: TextStyle(
+        //       color: Colors.black87,
+        //       fontWeight: FontWeight.bold,
+        //       fontSize: 24,
+        //     ),
+        //   ),
+        //   elevation: 0,
+        //   backgroundColor: kBgColor,
+        //   automaticallyImplyLeading: false,
+        // ),
         backgroundColor: kBgColor,
         body: Container(
             width: double.infinity,
             height: double.infinity,
             decoration: const BoxDecoration(color: Colors.white),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 70),
             child: Column(
               children: [
                 const SizedBox(

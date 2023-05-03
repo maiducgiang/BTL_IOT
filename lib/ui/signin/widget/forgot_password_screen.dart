@@ -1,5 +1,6 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
+import 'package:btliot/ui/home_page/home_page.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:btliot/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               press: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SensorScreen()),
+                  MaterialPageRoute(builder: (context) => MainScreen()),
                 );
               },
             ),
