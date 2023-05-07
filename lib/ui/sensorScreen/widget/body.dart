@@ -1,16 +1,19 @@
 import 'dart:async';
 
 import 'package:btliot/const.dart';
+import 'package:btliot/data/cache_manager.dart';
 import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/LandingScreen/components/control_button.dart';
 import 'package:btliot/ui/LandingScreen/landing_screen.dart';
 import 'package:btliot/ui/auth.dart';
 import 'package:btliot/ui/connect_host/connect_host.dart';
+import 'package:btliot/ui/get_time/get_time.dart';
 import 'package:btliot/ui/sensorScreen/widget/card.dart';
 import 'package:btliot/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:btliot/ui/sensorScreen/widget/status_button.dart';
 import 'package:btliot/ui/signin/widget_tree.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
 class SensorScreenBody extends StatefulWidget {
@@ -25,12 +28,18 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   late bool isActiveFan = false;
   late bool isActiveLed = false;
   late bool isActiveWindown = false;
+
+  late bool isActiveLedAT = false;
+  late bool isActiveWindowAT = false;
+  late bool isActiveFanAT = false;
+
   String doam = "0";
   String nhietdo = "0";
   late Timer _timer;
   String messageTitle = "Empty";
   String notificationAlert = "alert";
   late TabController tabController;
+  final CacheManager _cacheManager = CacheManager.instance;
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   @override
@@ -86,7 +95,8 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      await _cacheManager.addUserToCached(null);
                       setState(() {
                         Auth().signOut();
                         Navigator.pushReplacement(
@@ -257,8 +267,13 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                 controller: tabController,
                 isScrollable: true,
                 unselectedLabelColor: Colors.black45,
-                labelPadding: EdgeInsets.symmetric(horizontal: 20),
+                labelPadding: EdgeInsets.symmetric(horizontal: 40),
                 labelColor: Colors.grey,
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
                 indicator: UnderlineTabIndicator(
                   borderSide: BorderSide(
                     color: Colors.black,
@@ -267,131 +282,273 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                   // insets: EdgeInsets.symmetric(horizontal: 48),
                 ),
                 tabs: const [
-                  Tab(text: 'Đang sử dụng'),
-                  Tab(text: 'Đang xử lý'),
+                  Tab(text: 'Thủ công'),
+                  Tab(text: 'Tự động'),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ControlButton(
-                    size: size,
-                    title: 'Điều khiển \nnâng cao',
-                    icon: Icons.settings_outlined,
-                    isSelected: false,
-                    //disapble: true,
-                    onTap: () {
-                      if (connect == false) {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext dialogContext) {
-                            return CustomCupertinoAlert(
-                              context: context,
-                              title: "Chú ý",
-                              content:
-                                  'Ứng dụng chưa được kết nối. Vui lòng thực hiện kết nối trước khi điều khiển nâng cao',
-                              rightButtonTitle: 'Xác nhận',
-                              rightAction: () async {
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LandingScreen()),
-                        );
-                      }
-                    },
-                  ),
-                  ControlButton(
-                    size: size,
-                    title: 'Điều khiển \nquạt ',
-                    icon: Icons.wind_power,
-                    isSelected: isActiveFan,
-                    onTap: () {
-                      setState(() {
-                        isActiveFan = !isActiveFan;
-                      });
-                      if (isActiveFan == false) {
-                        pushMess("FAN", "0");
-                      } else {
-                        pushMess("FAN", "1");
-                      }
-                    },
-                  ),
-                  ControlButton(
-                    size: size,
-                    title: 'Điều khiển\nđèn',
-                    icon: Icons.highlight,
-                    isSelected: isActiveLed,
-                    onTap: () {
-                      setState(() {
-                        isActiveLed = !isActiveLed;
-                      });
-                      if (isActiveFan == false) {
-                        pushMess("LED1", "0");
-                      } else {
-                        pushMess("LED1", "1");
-                      }
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.02),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ControlButton(
-                    size: size,
-                    title: 'Đóng mở \ncửa sổ',
-                    icon: Icons.window_outlined,
-                    isSelected: isActiveWindown,
-                    onTap: () {
-                      setState(() {
-                        isActiveWindown = !isActiveWindown;
-                      });
-
-                      if (isActiveWindown == false) {
-                        pushMess("DOOR", "0");
-                      } else {
-                        pushMess("DOOR", "1");
-                      }
-                    },
-                  ),
-                  ControlButton(
-                    size: size,
-                    title: 'Nhiệt độ\n trong phòng ',
-                    icon: Icons.ac_unit,
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   CupertinoPageRoute(
-                      //     builder: (context) => SensorScreen(),
-                      //   ),
-                      // );
-                    },
-                  ),
-                  ControlButton(
-                    size: size,
-                    title: 'Độ ẩm \ntrong phòng',
-                    icon: Icons.water_drop_outlined,
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const GetTime()),
-                      // );
-                    },
-                  ),
-                ],
+              Container(
+                height: 300,
+                child: TabBarView(
+                    controller: tabController, children: [Manual(), Auto()]),
               ),
               SizedBox(height: size.height * 0.05),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget Manual() {
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        SizedBox(
+          height: 24,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ControlButton(
+              size: size,
+              title: 'Điều khiển \nnâng cao',
+              icon: Icons.settings_outlined,
+              isSelected: false,
+              //disapble: true,
+              onTap: () {
+                if (connect == false) {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext dialogContext) {
+                      return CustomCupertinoAlert(
+                        context: context,
+                        title: "Chú ý",
+                        content:
+                            'Ứng dụng chưa được kết nối. Vui lòng thực hiện kết nối trước khi điều khiển nâng cao',
+                        rightButtonTitle: 'Xác nhận',
+                        rightAction: () async {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LandingScreen()),
+                  );
+                }
+              },
+            ),
+            ControlButton(
+              size: size,
+              title: 'Điều khiển \nquạt ',
+              icon: Icons.wind_power,
+              isSelected: isActiveFan,
+              onTap: () {
+                setState(() {
+                  isActiveFan = !isActiveFan;
+                });
+                if (isActiveFan == false) {
+                  pushMess("FAN", "0");
+                } else {
+                  pushMess("FAN", "1");
+                }
+              },
+            ),
+            ControlButton(
+              size: size,
+              title: 'Điều khiển\nđèn',
+              icon: Icons.highlight,
+              isSelected: isActiveLed,
+              onTap: () {
+                setState(() {
+                  isActiveLed = !isActiveLed;
+                });
+                if (isActiveFan == false) {
+                  pushMess("LED1", "0");
+                } else {
+                  pushMess("LED1", "1");
+                }
+              },
+            ),
+          ],
+        ),
+        SizedBox(height: size.height * 0.02),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ControlButton(
+              size: size,
+              title: 'Đóng mở \ncửa sổ',
+              icon: Icons.window_outlined,
+              isSelected: isActiveWindown,
+              onTap: () {
+                setState(() {
+                  isActiveWindown = !isActiveWindown;
+                });
+
+                if (isActiveWindown == false) {
+                  pushMess("DOOR", "0");
+                } else {
+                  pushMess("DOOR", "1");
+                }
+              },
+            ),
+            ControlButton(
+              size: size,
+              title: 'Nhiệt độ\n trong phòng ',
+              icon: Icons.ac_unit,
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   CupertinoPageRoute(
+                //     builder: (context) => SensorScreen(),
+                //   ),
+                // );
+              },
+            ),
+            ControlButton(
+              size: size,
+              title: 'Độ ẩm \ntrong phòng',
+              icon: Icons.water_drop_outlined,
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const GetTime()),
+                // );
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget Auto() {
+    Size size = MediaQuery.of(context).size;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 24),
+          // SizedBox(height: size.height * 0.05),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ControlButton(
+                size: size,
+                title: 'Bật tắt đèn\ntheo ánh sáng',
+                icon: Icons.highlight_outlined,
+                isSelected: isActiveLedAT,
+                onTap: () {
+                  if (isActiveLedAT == false) {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
+                        return CustomCupertinoAlert(
+                          context: context,
+                          title: "Thông báo",
+                          content: 'Đèn sẽ tự động bặt tắt theo ánh sáng',
+                          rightButtonTitle: 'Xác nhận',
+                          rightAction: () async {
+                            pushMess("MQTT_ESP32/AUTODEN", "1");
+                            setState(() {
+                              isActiveLedAT = !isActiveLedAT;
+                            });
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    pushMess("MQTT_ESP32/AUTODEN", "0");
+                    setState(() {
+                      isActiveLedAT = false;
+                    });
+                  }
+                  // if(isActiveLed){
+                  //   pushMess("toppic", mess)
+                  // }
+                },
+              ),
+              ControlButton(
+                size: size,
+                title: 'Đóng cửa \nkhi trời mưa',
+                icon: Icons.window_outlined,
+                onTap: () {
+                  if (isActiveWindowAT == false) {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
+                        return CustomCupertinoAlert(
+                          context: context,
+                          title: "Thông báo",
+                          content: 'Cửa sẽ tự động đóng khi trời mưa',
+                          rightButtonTitle: 'Xác nhận',
+                          rightAction: () async {
+                            pushMess("MQTT_ESP32/AUTOCUA", "1");
+                            setState(() {
+                              isActiveWindowAT = !isActiveWindowAT;
+                            });
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    pushMess("MQTT_ESP32/AUTOCUA", "0");
+                    setState(() {
+                      isActiveWindowAT = false;
+                    });
+                  }
+                },
+                isSelected: isActiveWindowAT,
+              ),
+              ControlButton(
+                size: size,
+                title: 'Bật tắt theo\nnhiệt độ',
+                icon: Icons.wind_power,
+                onTap: () {
+                  if (isActiveFanAT == false) {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
+                        return CustomCupertinoAlert(
+                          context: context,
+                          title: "Thông báo",
+                          content: 'Quạt sẽ tự động bặt tắt theo nhiệt độ',
+                          rightButtonTitle: 'Xác nhận',
+                          rightAction: () async {
+                            pushMess("MQTT_ESP32/AUTOQUAT", "1");
+                            setState(() {
+                              isActiveFanAT = !isActiveFanAT;
+                            });
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    pushMess("MQTT_ESP32/AUTOQUAT", "0");
+                    setState(() {
+                      isActiveFanAT = false;
+                    });
+                  }
+                },
+                isSelected: isActiveFanAT,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

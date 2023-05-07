@@ -21,13 +21,16 @@ class BoardModelLocalAdapter extends TypeAdapter<BoardModelLocal> {
       title: fields[1] as String,
       time: fields[2] as DateTime,
       listImage: (fields[3] as List?)?.cast<Uint8List>(),
+      model: fields[4] as String?,
+      timeDuration: fields[6] as Duration?,
+      statusModel: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, BoardModelLocal obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +38,13 @@ class BoardModelLocalAdapter extends TypeAdapter<BoardModelLocal> {
       ..writeByte(2)
       ..write(obj.time)
       ..writeByte(3)
-      ..write(obj.listImage);
+      ..write(obj.listImage)
+      ..writeByte(4)
+      ..write(obj.model)
+      ..writeByte(5)
+      ..write(obj.statusModel)
+      ..writeByte(6)
+      ..write(obj.timeDuration);
   }
 
   @override

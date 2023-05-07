@@ -1,4 +1,5 @@
 import 'package:btliot/const.dart';
+import 'package:btliot/ui/board/board_screen.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var tabIndex = 0;
 
-  final _screenList = [SensorScreen(), Container()];
+  final _screenList = [SensorScreen(), const BoardScreen(), Container()];
 
   void changeTabIndex(int index) {
     setState(() {
@@ -59,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: SvgPicture.asset(
                     "assets/home.svg",
                     color: Colors.grey,
-                    width: 36,
+                    width: 42,
                   ),
                 ),
                 activeIcon: Padding(
@@ -67,10 +68,28 @@ class _MainScreenState extends State<MainScreen> {
                   child: SvgPicture.asset(
                     "assets/home.svg",
                     color: kOrangeColor,
-                    width: 36,
+                    width: 42,
                   ),
                 ),
                 label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 6, top: 6),
+                  child: SvgPicture.asset(
+                    "assets/schedule.svg",
+                    color: Colors.grey,
+                    width: 32,
+                  ),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(bottom: 6, top: 6),
+                  child: SvgPicture.asset(
+                    "assets/schedule.svg",
+                    color: kOrangeColor,
+                    width: 32,
+                  ),
+                ),
+                label: 'Schedule'),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 6, top: 6),

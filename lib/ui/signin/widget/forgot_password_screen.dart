@@ -35,6 +35,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     userLocal = await _cacheManager.getUserCached();
     if (userLocal != null && userLocal?.idNumber != null) {
       // ignore: use_build_context_synchronously
+      // if (true) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),

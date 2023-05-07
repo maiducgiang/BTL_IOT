@@ -24,8 +24,8 @@ class _WidgetTreeState extends State<WidgetTree> {
         print(snapshot);
         var data = snapshot.data;
         if (snapshot.hasData) {
-          _cacheManager
-              .addUserToCached(UserLocal(name: data!.email ?? "", phone: ""));
+          // await _cacheManager
+          //     .addUserToCached(UserLocal(name: data!.email ?? "", phone: ""));
           return const ForgotPasswordScreen();
         } else {
           return const SigninScreen();
