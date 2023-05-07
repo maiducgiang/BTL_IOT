@@ -48,7 +48,7 @@ class _TextFormFieldInputState extends State<TextFormFieldInput> {
       enabled: widget.enable,
       enableSuggestions: true,
       obscureText: widget.isPass == true && check == true ? true : false,
-      autovalidateMode: AutovalidateMode.always,
+      //autovalidateMode: AutovalidateMode.always,
       autofillHints: const [AutofillHints.oneTimeCode],
 
       validator: (text) {

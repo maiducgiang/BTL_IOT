@@ -1,7 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:btliot/const.dart';
+import 'package:btliot/data/cache_manager.dart';
+import 'package:btliot/data/model/user_local/user_model_local.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
-import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
+import 'package:btliot/ui/auth.dart';
 import 'package:btliot/ui/signin/widget/forgot_password_screen.dart';
 import 'package:btliot/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,15 @@ class SigninScreen extends StatefulWidget {
   State<SigninScreen> createState() => _SigninScreenState();
 }
 
+enum AuthMode { login, register }
+
 class _SigninScreenState extends State<SigninScreen> {
   var items = ['Viet Nam', 'English'];
+  final CacheManager _cacheManager = CacheManager.instance;
   String dropdownvalue = 'Viet Nam';
   bool checked = false;
+  String? errorMessage = '';
+  bool register = false;
   String? error;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -24,11 +30,12 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Đăng nhập',
-            style: TextStyle(
+          title: Text(
+            register == false ? 'Đăng nhập' : 'Đăng ký',
+            style: const TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
               fontSize: 24,
@@ -50,13 +57,119 @@ class _SigninScreenState extends State<SigninScreen> {
                   height: 12,
                 ),
                 renderHeader(),
-                renderBody(context)
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      TextFormFieldInput(
+                        hinText: 'email',
+                        isEmail: true,
+                        error: error,
+                        controller: emailController,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormFieldInput(
+                        isPass: true,
+                        hinText: 'mật khẩu',
+                        error: error,
+                        controller: passwordController,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      register == false
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: (() {}),
+                                  child: Text(' Quyên mật khẩu?',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.orange[900],
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      DefaultButton(
+                        size: size,
+                        title: register == false ? "Đăng nhập" : "Đăng ký",
+                        press: () async {
+                          if (register == false) {
+                            if (_formKey.currentState!.validate()) {
+                              error = await Auth().signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                              _cacheManager.addUserToCached(UserLocal(
+                                  name: emailController.text,
+                                  phone: passwordController.text));
+                              setState(() {});
+                            }
+                          } else {
+                            if (_formKey.currentState!.validate()) {
+                              error =
+                                  await Auth().createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                              _cacheManager.addUserToCached(UserLocal(
+                                  name: emailController.text,
+                                  phone: passwordController.text));
+                              register = false;
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      register == false
+                          ? Row(
+                              children: [
+                                const Text('Chưa có tài khoản? ',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey)),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      register = true;
+                                    });
+                                  },
+                                  child: Text(' Đăng ký ngay',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.orange[900],
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                ),
+                // renderBody(context, signInWithEmailAndPassword)
               ],
             )));
   }
 }
 
-Widget renderBody(BuildContext context) {
+Widget renderBody(BuildContext context, Future signInWithEmailAndPassword) {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -107,7 +220,8 @@ Widget renderBody(BuildContext context) {
           DefaultButton(
             size: size,
             title: "Đăng nhập",
-            press: () {
+            press: () async {
+              await signInWithEmailAndPassword;
               Navigator.push(
                 context,
                 MaterialPageRoute(

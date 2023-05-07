@@ -24,7 +24,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 /// of 1883 is used.
 /// If you want to use websockets rather than TCP see below.
 
-final client = MqttServerClient('broker.mqttdashboard.com', 'maiducgiang');
+final client = MqttServerClient('broker.mqttdashboard.com', 'phamquangtruong');
 
 var pongCount = 0; // Pong counter
 
@@ -73,7 +73,7 @@ Future<int> concectBroker({Function? connect, Function? disconnect}) async {
   /// client identifier, any supplied username/password and clean session,
   /// an example of a specific one below.
   final connMess = MqttConnectMessage()
-      .authenticateAs('maiducgiang', 'maiducgiang')
+      .authenticateAs('phamquangtruong', 'phamquangtruong')
       .withClientIdentifier('Mqtt_MyclientUniqueId')
       .withWillTopic('willtopic') // If you set this you must set a will message
       .withWillMessage('My Will message')
@@ -169,8 +169,8 @@ Future<int> concectBroker({Function? connect, Function? disconnect}) async {
   /// Subscribe to it
   print('EXAMPLE::Subscribing to the topic/led1 topic');
   client.subscribe(pubTopic, MqttQos.exactlyOnce);
-  client.subscribe("MQTT_ESP32/DOAM", MqttQos.exactlyOnce);
-  client.subscribe("MQTT_ESP32/NHIETDO", MqttQos.exactlyOnce);
+  client.subscribe("HUMI", MqttQos.exactlyOnce);
+  client.subscribe("TEMP", MqttQos.exactlyOnce);
 
   /// Publish it
   print('EXAMPLE::Publishing our topic');

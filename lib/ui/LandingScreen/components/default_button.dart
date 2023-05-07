@@ -11,7 +11,7 @@ class DefaultButton extends StatelessWidget {
 
   final Size size;
   final String title;
-  final GestureTapCallback press;
+  final Function press;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,12 @@
 import 'package:btliot/const.dart';
+import 'package:btliot/data/cache_manager.dart';
+import 'package:btliot/data/model/user_local/user_model_local.dart';
 import 'package:btliot/ui/LandingScreen/components/default_button.dart';
+import 'package:btliot/ui/auth.dart';
+import 'package:btliot/ui/home_screen/home_screen.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 import 'package:btliot/widget/text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +21,27 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailForgotController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final CacheManager _cacheManager = CacheManager.instance;
+  late UserLocal? userLocal = null;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    init();
+    super.initState();
+  }
+
+  void init() async {
+    userLocal = await _cacheManager.getUserCached();
+    if (userLocal != null && userLocal?.idNumber != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +97,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             DefaultButton(
               size: size,
               title: "Gửi",
-              press: () {
+              press: () async {
+                userLocal = await _cacheManager.getUserCached();
+                _cacheManager.addUserToCached(
+                    userLocal!.copyWith(idNumber: emailForgotController.text));
+
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SensorScreen()),
+                  MaterialPageRoute(builder: (context) => MainScreen()),
                 );
               },
             ),
