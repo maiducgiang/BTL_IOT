@@ -64,10 +64,10 @@ class CacheManager {
     if (!isAdded) {
       cachedData.add(model);
     }
-    await _addAllBoard(cachedData);
+    await addAllBoard(cachedData);
   }
 
-  Future<void> _addAllBoard(List<BoardModelLocal> models) async {
+  Future<void> addAllBoard(List<BoardModelLocal> models) async {
     await _cacheBox.put(_listBoard, models);
   }
 

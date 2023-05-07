@@ -12,4 +12,10 @@ class BroadCubit extends Cubit<BroadState> {
     List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
     emit(state.copyWith(listBoardLocal: dataLocal));
   }
+
+  Future<void> setStatus(BoardModelLocal boardModelLocal) async {
+    _cacheManager.addBoardToCache(
+        boardModelLocal.copyWith(isEnable: !boardModelLocal.isEnable!));
+    init();
+  }
 }

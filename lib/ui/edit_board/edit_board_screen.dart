@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:btliot/constant.dart';
 import 'package:btliot/data/model/board_local/board_model.dart';
 import 'package:btliot/extension/date_formatting.dart';
@@ -11,11 +8,8 @@ import 'package:btliot/ui/media_button_widget.dart';
 import 'package:btliot/ui/primary_button.dart';
 import 'package:btliot/ui/theme.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,7 +29,6 @@ class _EditBoardScreenState extends State<EditBoardScreen> {
           "${DateTime.now().hour > 9 ? DateTime.now().hour.toString() : "0${DateTime.now().hour.toString()}"}:${DateTime.now().minute > 9 ? DateTime.now().minute.toString() : "0${DateTime.now().minute.toString()}"}");
   late bool init = false;
   final TextEditingController contentController = TextEditingController();
-  late String selectedValueHour = "Đèn";
   late String selectedModel = "Đèn";
   late String selectedStatusModel = "Tắt";
   @override
@@ -50,9 +43,16 @@ class _EditBoardScreenState extends State<EditBoardScreen> {
           if (state != null &&
               widget.boardModelLocal != null &&
               init == false) {
+            selectedModel = widget.boardModelLocal!.model!;
+            selectedStatusModel = widget.boardModelLocal!.statusModel!;
             contentController.text = state.title;
-            dayController =
-                TextEditingController(text: FormatDayShip(state.day).format());
+            int duration = widget.boardModelLocal!.timeDuration!;
+            int hour = (duration / 60).toInt();
+            int minute = duration % 60;
+            var textTime =
+                "${hour > 9 ? hour.toString() : "0${hour.toString()}"}:${minute > 9 ? minute.toString() : "0${minute.toString()}"}";
+
+            dayController = TextEditingController(text: textTime);
             init = true;
           }
           return GestureDetector(
@@ -280,9 +280,9 @@ class _EditBoardScreenState extends State<EditBoardScreen> {
         ),
       ),
       title: Text(
-        widget.boardModelLocal == null ? "Thêm sự kiện" : "Sửa sự kiện",
+        widget.boardModelLocal == null ? "Thêm lịch" : "Sửa lịch",
         style: titleStyle.copyWith(
-          fontSize: 17,
+          fontSize: 23,
         ),
       ),
     );

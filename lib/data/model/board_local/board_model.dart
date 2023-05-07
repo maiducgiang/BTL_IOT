@@ -20,8 +20,9 @@ class BoardModelLocal extends HiveObject {
   @HiveField(5)
   final String? statusModel;
   @HiveField(6)
-  final Duration? timeDuration;
-
+  final int? timeDuration;
+  @HiveField(7)
+  final bool? isEnable;
   BoardModelLocal(
       {this.id,
       required this.title,
@@ -29,6 +30,7 @@ class BoardModelLocal extends HiveObject {
       this.listImage,
       this.model,
       this.timeDuration,
+      this.isEnable = true,
       this.statusModel});
 
   BoardModelLocal copyWith(
@@ -37,7 +39,8 @@ class BoardModelLocal extends HiveObject {
       DateTime? time,
       List<Uint8List>? listImage,
       String? model,
-      Duration? timeDuration,
+      int? timeDuration,
+      bool? isEnable,
       String? statusModel}) {
     return BoardModelLocal(
         id: id ?? this.id,
@@ -46,6 +49,7 @@ class BoardModelLocal extends HiveObject {
         listImage: listImage ?? this.listImage,
         model: model ?? this.model,
         timeDuration: timeDuration ?? this.timeDuration,
+        isEnable: isEnable ?? this.isEnable,
         statusModel: statusModel ?? this.statusModel);
   }
 }

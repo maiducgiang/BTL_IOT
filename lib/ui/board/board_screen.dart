@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:btliot/const.dart';
 import 'package:btliot/constant.dart';
 import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/board/cubit/broad_cubit.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:path/path.dart' as p;
 
 class BoardScreen extends StatefulWidget {
@@ -37,29 +38,29 @@ class _BoardScreenState extends State<BoardScreen> {
         },
         builder: (context, state) {
           return Scaffold(
-              backgroundColor: greyPrymarySecondColor,
+              backgroundColor: kBgColor,
               appBar: _appBar(context),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EditBoardScreen()),
-                  ).then((value) {
-                    context.read<BroadCubit>().init();
-                  });
-                  // context.router.push(EditBoardPage()).then((value) {
-                  //   context.read<BroadCubit>().init();
-                  // });
-                },
-                backgroundColor: primaryColor,
-                elevation: 3,
-                highlightElevation: 5,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 26,
-                ),
-              ),
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => EditBoardScreen()),
+              //     ).then((value) {
+              //       context.read<BroadCubit>().init();
+              //     });
+              //     // context.router.push(EditBoardPage()).then((value) {
+              //     //   context.read<BroadCubit>().init();
+              //     // });
+              //   },
+              //   backgroundColor: primaryColor,
+              //   elevation: 3,
+              //   highlightElevation: 5,
+              //   child: const Icon(
+              //     Icons.add,
+              //     color: Colors.white,
+              //     size: 26,
+              //   ),
+              // ),
               body: SafeArea(
                 child: Column(
                   children: [
@@ -67,76 +68,16 @@ class _BoardScreenState extends State<BoardScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            // Container(
-                            //   height: 70,
-                            //   alignment: Alignment.center,
-                            //   child: Row(
-                            //     children: [
-                            //       Container(
-                            //         padding: EdgeInsets.only(left: 16),
-                            //         width: 32,
-                            //       ),
-                            //       Expanded(
-                            //         child: Container(
-                            //           alignment: Alignment.center,
-                            //           margin:
-                            //               EdgeInsets.symmetric(vertical: 8),
-                            //           child: Text(
-                            //             "Kỷ niệm ",
-                            //             style: headerTitleStyle,
-                            //             //style: subTitleStyle.copyWith(),
-                            //             overflow: TextOverflow.ellipsis,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Container(
-                            //         padding: EdgeInsets.only(right: 16),
-                            //         alignment: Alignment.center,
-                            //         child: SvgPicture.asset(
-                            //           "assets/images/icons/icon_search.svg",
-                            //           color: greyPrymaryColor,
-                            //           width: 24,
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // ),
-                            state.listBoardLocal.length != 0
-                                ? Container(
-                                    alignment: Alignment.center,
-                                    //margin: EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      "Bạn có ${state.listBoardLocal.length} kỷ niệm",
-                                      style: subTitleStyle.copyWith(
-                                          color: greyPrymaryColor,
-                                          fontSize: 13),
-                                    ),
-                                  )
-                                : Container(),
                             ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: state.listBoardLocal.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
-                                    // onTap: () {
-                                    //   context.router
-                                    //       .push(DetailBoardPage(
-                                    //           boardModelLocal:
-                                    //               state.listBoardLocal[index]))
-                                    //       .then((value) {
-                                    //     context.read<BroadCubit>().init();
-                                    //   });
-                                    // },
                                     child: ItemBoard(
                                       context: context,
                                       state: state,
                                       index: index,
-                                      // title:
-                                      //     state.listBoardLocal[index].title,
-                                      // image: state
-                                      //     .listBoardLocal[index].listImage,
-                                      // time: state.listBoardLocal[index].time
                                     ),
                                   );
                                 }),
@@ -161,21 +102,38 @@ class _BoardScreenState extends State<BoardScreen> {
       backgroundColor: Color(0xffEFF2F7),
       elevation: 0,
       title: Text(
-        "Kỷ niệm ",
-        style: headerTitleStyle.copyWith(fontWeight: FontWeight.w600),
+        "Schedule",
+        style: headerTitleStyle.copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: 23,
+        ),
         //style: subTitleStyle.copyWith(),
         overflow: TextOverflow.ellipsis,
       ),
       actions: [
-        // Container(
-        //   padding: EdgeInsets.only(right: 16),
-        //   alignment: Alignment.center,
-        //   child: SvgPicture.asset(
-        //     "assets/images/icons/icon_search.svg",
-        //     color: greyPrymaryColor,
-        //     width: 24,
-        //   ),
-        // )
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditBoardScreen()),
+            ).then((value) {
+              context.read<BroadCubit>().init();
+            });
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            width: 50,
+            height: 50,
+            // decoration:
+            //     BoxDecoration(shape: BoxShape.circle, color: primaryColor),
+            child: Icon(
+              Icons.add,
+              size: 38,
+              color: primaryColor, //Colors.amber[600],
+            ),
+          ),
+        )
       ],
     );
   }
@@ -189,9 +147,28 @@ class _BoardScreenState extends State<BoardScreen> {
     // Function()? onPress,
     // List<Uint8List>? image,
   }) {
-    Duration duration = state.listBoardLocal[index].timeDuration!;
-    var hour = duration.inHours;
-    var minute = duration.inMinutes % 60;
+    IconData icon = Icons.highlight_outlined;
+
+    switch (state.listBoardLocal[index].model) {
+      case "Đèn":
+        icon = Icons.highlight_outlined;
+        break;
+      case "Quạt":
+        icon = Icons.wind_power;
+        break;
+      case "Cửa sổ":
+        icon = Icons.window_outlined;
+        break;
+    }
+    String statusModel = state.listBoardLocal[index].statusModel!;
+    if (state.listBoardLocal[index].model == "Cửa sổ" &&
+        state.listBoardLocal[index].statusModel! == "Tắt") {
+      statusModel = "Đóng";
+    }
+    bool isEnable = state.listBoardLocal[index].isEnable ?? true;
+    int duration = state.listBoardLocal[index].timeDuration!;
+    int hour = (duration / 60).toInt();
+    int minute = duration % 60;
     var textTime =
         "${hour > 9 ? hour.toString() : "0${hour.toString()}"}:${minute > 9 ? minute.toString() : "0${minute.toString()}"}";
     return Padding(
@@ -201,57 +178,13 @@ class _BoardScreenState extends State<BoardScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   alignment: Alignment.center,
-          //   margin: EdgeInsets.symmetric(horizontal: 6),
-          //   width: 72,
-          //   child: Column(
-          //     children: [
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           // unfocus(context)
-          //         },
-          //         child: Text(
-          //           FormatDayShip(state.listBoardLocal[index].time).format4(),
-          //           textAlign: TextAlign.center,
-          //           style: subTitleStyle.copyWith(
-          //               fontWeight: FontWeight.w400,
-          //               fontSize: 11,
-          //               color: greyPrymaryColor),
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         height: 6,
-          //       ),
-          //       countDay(state.listBoardLocal[index].time) != ""
-          //           ? Container(
-          //               padding: EdgeInsets.symmetric(
-          //                 horizontal: 7,
-          //               ),
-          //               decoration: BoxDecoration(
-          //                   color: greyPrymaryColor,
-          //                   borderRadius: BorderRadius.circular(20)),
-          //               child: Text(
-          //                 countDay(state.listBoardLocal[index].time),
-          //                 textAlign: TextAlign.center,
-          //                 style: subTitleStyle.copyWith(
-          //                     fontSize: 11, color: Colors.white),
-          //               ),
-          //             )
-          //           : Container(),
-          //     ],
-          //   ),
-          // ),
           Expanded(
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DetailBoardScreen(
+                      builder: (context) => EditBoardScreen(
                           boardModelLocal: state.listBoardLocal[index])),
                 ).then((value) {
                   context.read<BroadCubit>().init();
@@ -259,98 +192,101 @@ class _BoardScreenState extends State<BoardScreen> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: (isEnable == true ? kOrangeColor : Colors.white),
+                    boxShadow: [
+                      BoxShadow(
+                        color: isEnable == true
+                            ? kOrangeColor.withOpacity(0.5)
+                            : Colors.grey.shade200,
+                        blurRadius: 30,
+                        offset: Offset(5, 5),
+                      ),
+                    ],
                     borderRadius: BorderRadius.circular(12)),
                 padding: EdgeInsets.all(14),
-                //padding: ,
                 margin: EdgeInsets.only(right: 12, left: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      state.listBoardLocal[index].title,
-                      style: titleStyle.copyWith(
-                          height: 1.3,
-                          wordSpacing: 0.5,
-                          letterSpacing: 0.5,
-                          fontSize: 15,
-                          color: Color(0xff1C2433)),
-                    ),
-                    state.listBoardLocal[index].listImage != null &&
-                            state.listBoardLocal[index].listImage!.length != 0
-                        ? Container(
-                            height: 60,
-                            margin: EdgeInsets.symmetric(vertical: 14),
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: state
-                                    .listBoardLocal[index].listImage!.length,
-                                itemBuilder: (context, index2) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ShowImageScreen(
-                                                    image: state
-                                                        .listBoardLocal[index]
-                                                        .listImage!)),
-                                      );
-                                      // MaterialPageRoute(
-                                      //     builder: (context) => ShowImageScreen(
-                                      //         image: state.listBoardLocal[index]
-                                      //             .listImage!));
-
-                                      // context.router.push(ShowImagePage(
-                                      //     image: state.listBoardLocal[index]
-                                      //         .listImage!));
-                                    },
-                                    child: Container(
-                                      width: 60,
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        child: Image.memory(
-                                          state.listBoardLocal[index]
-                                              .listImage![index2],
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          )
-                        : Container(
-                            height: 20,
-                          ),
                     Container(
-                      //margin: EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        children: [
-                          Text(
-                            FormatTime(state.listBoardLocal[index].time)
-                                .format(),
+                      height: 54,
+                      width: 54,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: isEnable ? secondaryColor : Color(0xffDADADA),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        icon,
+                        color: isEnable ? Color(0xff199089) : Colors.grey,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 14,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 12,
+                        ),
+                        Container(
+                          //height: 12,
+                          child: Text(
+                            ("${statusModel} ${state.listBoardLocal[index].model!}")
+                                .toLowerCase(),
                             style: subTitleStyle.copyWith(
-                                fontSize: 13, color: greyPrymaryColor),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 23,
+                                color: isEnable
+                                    ? Color(0xffffc386)
+                                    : Colors.black),
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(horizontal: 3),
-                            child: SvgPicture.asset(
-                              "assets/images/icons/ellipse.svg",
-                              color: greyPrymaryColor,
-                              width: 3,
-                            ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Container(
+                          //margin: EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                textTime,
+                                style: subTitleStyle.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23,
+                                    color: isEnable
+                                        ? Color(0xffffc386)
+                                        : greyPrymaryColor),
+                              ),
+                            ],
                           ),
-                          Text(
-                            textTime,
-                            style: subTitleStyle.copyWith(
-                                fontSize: 13, color: greyPrymaryColor),
-                          ),
-                        ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 14,
+                    ),
+                    Expanded(child: Container()),
+                    Container(
+                      child: FlutterSwitch(
+                        activeColor: Color(0xff199089),
+                        inactiveColor: Color(0xffD6D6D6),
+                        activeToggleColor: Color(0xffffc386),
+                        width: 62,
+                        height: 33,
+                        valueFontSize: 0,
+                        toggleSize: 20.0,
+                        value: state.listBoardLocal[index].isEnable ?? true,
+                        borderRadius: 30.0,
+                        padding: 6.0,
+                        showOnOff: true,
+                        onToggle: (val) {
+                          context
+                              .read<BroadCubit>()
+                              .setStatus(state.listBoardLocal[index]);
+                        },
                       ),
                     )
                   ],

@@ -1,5 +1,6 @@
 import 'package:btliot/const.dart';
 import 'package:btliot/ui/board/board_screen.dart';
+import 'package:btliot/ui/profile/profile_screen.dart';
 import 'package:btliot/ui/sensorScreen/sensor_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var tabIndex = 0;
 
-  final _screenList = [SensorScreen(), const BoardScreen(), Container()];
+  final _screenList = [SensorScreen(), const BoardScreen(), ProfileScreen()];
 
   void changeTabIndex(int index) {
     setState(() {

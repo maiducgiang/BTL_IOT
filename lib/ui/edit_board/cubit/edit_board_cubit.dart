@@ -93,12 +93,18 @@ class EditBoardCubit extends Cubit<EditBoardState> {
           title: title,
           time: time,
           model: model,
-          timeDuration: timeDuration,
+          timeDuration: timeDuration.inMinutes,
           statusModel: statusModel,
           listImage: state.imageFileList));
     } else {
       _cacheManager.addBoardToCache(BoardModelLocal(
-          title: title, time: time, listImage: state.imageFileList));
+        title: title,
+        time: time,
+        listImage: state.imageFileList,
+        model: model,
+        timeDuration: timeDuration.inMinutes,
+        statusModel: statusModel,
+      ));
     }
   }
 }
