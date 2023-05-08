@@ -27,6 +27,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   late bool connect = false;
   late bool isActiveFan = false;
   late bool isActiveLed = false;
+  late bool isActiveLed1 = false;
   late bool isActiveWindown = false;
 
   late bool isActiveLedAT = false;
@@ -311,36 +312,52 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
           children: [
             ControlButton(
               size: size,
-              title: 'Điều khiển \nnâng cao',
-              icon: Icons.settings_outlined,
-              isSelected: false,
-              //disapble: true,
+              title: 'Điều khiển\nđèn 1',
+              icon: Icons.highlight,
+              isSelected: isActiveLed1,
               onTap: () {
-                if (connect == false) {
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext dialogContext) {
-                      return CustomCupertinoAlert(
-                        context: context,
-                        title: "Chú ý",
-                        content:
-                            'Ứng dụng chưa được kết nối. Vui lòng thực hiện kết nối trước khi điều khiển nâng cao',
-                        rightButtonTitle: 'Xác nhận',
-                        rightAction: () async {
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  );
+                setState(() {
+                  isActiveLed1 = !isActiveLed1;
+                });
+                if (isActiveLed1 == false) {
+                  pushMess("LED1", "0");
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LandingScreen()),
-                  );
+                  pushMess("LED1", "1");
                 }
               },
             ),
+            // ControlButton(
+            //   size: size,
+            //   title: 'Điều khiển \nnâng cao',
+            //   icon: Icons.settings_outlined,
+            //   isSelected: false,
+            //   //disapble: true,
+            //   onTap: () {
+            //     if (connect == false) {
+            //       showDialog<void>(
+            //         context: context,
+            //         barrierDismissible: false,
+            //         builder: (BuildContext dialogContext) {
+            //           return CustomCupertinoAlert(
+            //             context: context,
+            //             title: "Chú ý",
+            //             content:
+            //                 'Ứng dụng chưa được kết nối. Vui lòng thực hiện kết nối trước khi điều khiển nâng cao',
+            //             rightButtonTitle: 'Xác nhận',
+            //             rightAction: () async {
+            //               Navigator.pop(context);
+            //             },
+            //           );
+            //         },
+            //       );
+            //     } else {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => LandingScreen()),
+            //       );
+            //     }
+            //   },
+            // ),
             ControlButton(
               size: size,
               title: 'Điều khiển \nquạt ',
@@ -359,17 +376,17 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
             ),
             ControlButton(
               size: size,
-              title: 'Điều khiển\nđèn',
+              title: 'Điều khiển\nđèn 2',
               icon: Icons.highlight,
               isSelected: isActiveLed,
               onTap: () {
                 setState(() {
                   isActiveLed = !isActiveLed;
                 });
-                if (isActiveFan == false) {
-                  pushMess("LED1", "0");
+                if (isActiveLed == false) {
+                  pushMess("LED2", "0");
                 } else {
-                  pushMess("LED1", "1");
+                  pushMess("LED2", "1");
                 }
               },
             ),
@@ -492,7 +509,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                           content: 'Cửa sẽ tự động đóng khi trời mưa',
                           rightButtonTitle: 'Xác nhận',
                           rightAction: () async {
-                            pushMess("MQTT_ESP32/AUTOCUA", "1");
+                            pushMess("ADOOR", "1");
                             setState(() {
                               isActiveWindowAT = !isActiveWindowAT;
                             });
@@ -503,7 +520,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                       },
                     );
                   } else {
-                    pushMess("MQTT_ESP32/AUTOCUA", "0");
+                    pushMess("ADOOR", "0");
                     setState(() {
                       isActiveWindowAT = false;
                     });
@@ -527,7 +544,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                           content: 'Quạt sẽ tự động bặt tắt theo nhiệt độ',
                           rightButtonTitle: 'Xác nhận',
                           rightAction: () async {
-                            pushMess("MQTT_ESP32/AUTOQUAT", "1");
+                            pushMess("AFAN", "1");
                             setState(() {
                               isActiveFanAT = !isActiveFanAT;
                             });
@@ -538,7 +555,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                       },
                     );
                   } else {
-                    pushMess("MQTT_ESP32/AUTOQUAT", "0");
+                    pushMess("AFAN", "0");
                     setState(() {
                       isActiveFanAT = false;
                     });

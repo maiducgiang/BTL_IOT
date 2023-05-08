@@ -24,7 +24,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 /// of 1883 is used.
 /// If you want to use websockets rather than TCP see below.
 
-final client = MqttServerClient('broker.mqttdashboard.com', 'phamquangtruong');
+final client = MqttServerClient('broker.mqttdashboard.com', 'maiducgiang');
 
 var pongCount = 0; // Pong counter
 
@@ -73,7 +73,7 @@ Future<int> concectBroker({Function? connect, Function? disconnect}) async {
   /// client identifier, any supplied username/password and clean session,
   /// an example of a specific one below.
   final connMess = MqttConnectMessage()
-      .authenticateAs('phamquangtruong', 'phamquangtruong')
+      .authenticateAs('maiducgiang', 'maiducgiang')
       .withClientIdentifier('Mqtt_MyclientUniqueId')
       .withWillTopic('willtopic') // If you set this you must set a will message
       .withWillMessage('My Will message')
