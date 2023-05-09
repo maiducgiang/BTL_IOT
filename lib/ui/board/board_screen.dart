@@ -13,7 +13,7 @@ import 'package:btliot/ui/image/image_screen.dart';
 import 'package:btliot/ui/router/router.gr.dart';
 import 'package:btliot/ui/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background/flutter_background.dart';
+// import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,52 +37,53 @@ class _BoardScreenState extends State<BoardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _connectToServer();
+    // _connectToServer();
   }
 
-  Future<void> _connectToServer() async {
-    final config = FlutterBackgroundAndroidConfig(
-      notificationTitle: 'flutter_background example app',
-      notificationText:
-          'Background notification for keeping the example app running in the background',
-      notificationIcon: AndroidResource(name: 'background_icon'),
-      notificationImportance: AndroidNotificationImportance.Default,
-      enableWifiLock: true,
-      showBadge: true,
-    );
+  // Future<void> _connectToServer() async {
+  //   const config = FlutterBackgroundAndroidConfig(
+  //     notificationTitle: 'flutter_background example app',
+  //     notificationText:
+  //         'Background notification for keeping the example app running in the background',
+  //     notificationIcon: AndroidResource(name: 'background_icon'),
+  //     notificationImportance: AndroidNotificationImportance.Default,
+  //     enableWifiLock: true,
+  //     showBadge: true,
+  //   );
 
-    var hasPermissions = await FlutterBackground.hasPermissions;
-    if (!hasPermissions) {
-      await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Text('Permissions needed'),
-                content: Text(
-                    'Shortly the OS will ask you for permission to execute this app in the background. This is required in order to receive chat messages when the app is not in the foreground.'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
-                    child: const Text('OK'),
-                  ),
-                ]);
-          });
-    }
+  //   var hasPermissions = await FlutterBackground.hasPermissions;
+  //   if (!hasPermissions) {
+  //     // ignore: use_build_context_synchronously
+  //     await showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           return AlertDialog(
+  //               title: const Text('Permissions needed'),
+  //               content: const Text(
+  //                   'Shortly the OS will ask you for permission to execute this app in the background. This is required in order to receive chat messages when the app is not in the foreground.'),
+  //               actions: [
+  //                 TextButton(
+  //                   onPressed: () => Navigator.pop(context, 'OK'),
+  //                   child: const Text('OK'),
+  //                 ),
+  //               ]);
+  //         });
+  //   }
 
-    hasPermissions = await FlutterBackground.initialize(androidConfig: config);
+  //   hasPermissions = await FlutterBackground.initialize(androidConfig: config);
 
-    if (hasPermissions) {
-      if (hasPermissions) {
-        final backgroundExecution =
-            await FlutterBackground.enableBackgroundExecution();
-        if (backgroundExecution) {
-          _timer = Timer(Duration(seconds: 15), () {
-            print("giang");
-          });
-        }
-      }
-    }
-  }
+  //   if (hasPermissions) {
+  //     if (hasPermissions) {
+  //       final backgroundExecution =
+  //           await FlutterBackground.enableBackgroundExecution();
+  //       if (backgroundExecution) {
+  //         _timer = Timer(Duration(seconds: 15), () {
+  //           print("giang");
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
