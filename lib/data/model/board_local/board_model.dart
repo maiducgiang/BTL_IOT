@@ -52,4 +52,12 @@ class BoardModelLocal extends HiveObject {
         isEnable: isEnable ?? this.isEnable,
         statusModel: statusModel ?? this.statusModel);
   }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'time': time,
+      'model': model,
+      "statusModel": statusModel
+    };
+  }
 }
