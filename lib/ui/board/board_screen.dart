@@ -7,6 +7,7 @@ import 'package:btliot/constant.dart';
 import 'package:btliot/extension/date_formatting.dart';
 import 'package:btliot/ui/board/cubit/broad_cubit.dart';
 import 'package:btliot/ui/board/cubit/broad_state.dart';
+import 'package:btliot/ui/board/demo_screen.dart';
 import 'package:btliot/ui/detail_board/detail_board.dart';
 import 'package:btliot/ui/edit_board/edit_board_screen.dart';
 import 'package:btliot/ui/image/image_screen.dart';
@@ -36,14 +37,32 @@ class _BoardScreenState extends State<BoardScreen> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
+    Timer(Duration(seconds: 5), () {
+      nextScreen();
+    });
+
     // _connectToServer();
+  }
+
+  void nextScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DemoScreen()),
+    );
   }
 
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
   // Future<void> _connectToServer() async {
   //   const config = FlutterBackgroundAndroidConfig(
