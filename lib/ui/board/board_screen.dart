@@ -40,6 +40,11 @@ class _BoardScreenState extends State<BoardScreen> {
     // _connectToServer();
   }
 
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
   // Future<void> _connectToServer() async {
   //   const config = FlutterBackgroundAndroidConfig(
   //     notificationTitle: 'flutter_background example app',

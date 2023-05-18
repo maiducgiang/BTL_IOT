@@ -48,7 +48,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     tabController = TabController(length: 2, vsync: this);
     _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
       timeNow = DateTime.now();
-      print("maiducgiang delay" + doam + " " + nhietdo);
+      // print("maiducgiang delay" + doam + " " + nhietdo);
       if (connect == true) {
         client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
           for (int i = 0; i < c!.length; i++) {
@@ -80,6 +80,23 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     //     },
     //   );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    client.disconnect();
+    super.dispose();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
+  void disconect() {
+    client.disconnect();
   }
 
   @override
@@ -227,9 +244,17 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StatusButton2(
-                    size: MediaQuery.of(context).size,
-                    isActive: connect,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        connect = false;
+                        disconect();
+                      });
+                    },
+                    child: StatusButton2(
+                      size: MediaQuery.of(context).size,
+                      isActive: connect,
+                    ),
                   ),
                   CustomCard(
                     size: size,
@@ -251,13 +276,6 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                           connect = true;
                         });
                       });
-
-                      // setState(() {
-                      //   if (client.connectionStatus!.state ==
-                      //       MqttConnectionState.connected) {
-                      //     connect = true;
-                      //   }
-                      // });
                     },
                     disconect: () async {},
                   ),

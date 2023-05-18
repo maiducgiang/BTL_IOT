@@ -1,13 +1,19 @@
 import 'dart:io';
 
 import 'package:btliot/data/cache_manager.dart';
+import 'package:btliot/ui/board/cubit/broad_cubit.dart';
 import 'package:btliot/ui/signin/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await initializeService();
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  );
   await Firebase.initializeApp();
   await CacheManager.instance.init();
   runApp(MyApp2());
