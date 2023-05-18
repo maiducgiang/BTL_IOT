@@ -94,3 +94,22 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+    - assets/images/mubaha_logo/
+    - assets/images/logo/
+    - assets/images/banner/
+    - assets/images/error/
+    - assets/images/category/
+    - assets/images/icons/
+    - assets/images/bottom/
+    - assets/images/splash/
+    - assets/translations/
+    - assets/data/categories.json
+    - assets/data/products.json
+    - assets/data/users.json
+    - assets/data/homepage.json
+    - assets/data/categories.json
+    - assets/data/favorite.json
+    - assets/data/cartpage.json

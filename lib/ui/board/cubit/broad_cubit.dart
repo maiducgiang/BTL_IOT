@@ -7,6 +7,7 @@ import 'package:workmanager_example/ui/board/cubit/conect2.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:workmanager/workmanager.dart';
+import 'package:workmanager_example/ui/connect_host/connect_host.dart';
 
 class BroadCubit extends Cubit<BroadState> {
   BroadCubit() : super(BroadState.initial());
@@ -243,11 +244,13 @@ void callbackDispatcher() {
 
     dataLocal;
 
-    concectBroker2(
-        disconnect: () {},
-        connect: () {},
-        toppic: dataLocal[0] as String,
-        mess: dataLocal[1] as String);
+    concectBroker(
+      disconnect: () {},
+      connect: () {},
+    );
+    Timer(Duration(seconds: 1), () {
+      pushMess("LED1", "0");
+    });
 
     return Future.value(true);
   });

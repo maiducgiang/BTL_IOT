@@ -39,9 +39,9 @@ class _BoardScreenState extends State<BoardScreen> {
     // TODO: implement initState
 
     super.initState();
-    Timer(Duration(seconds: 5), () {
-      nextScreen();
-    });
+    // Timer(Duration(seconds: 5), () {
+    //   nextScreen();
+    // });
 
     // _connectToServer();
   }

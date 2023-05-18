@@ -9,7 +9,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheManager.instance.init();
-
   runApp(MyApp2());
 }
 // Future<void> initializeService() async {
