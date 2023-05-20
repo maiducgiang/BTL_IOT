@@ -45,6 +45,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   @override
   void initState() {
+    init();
     tabController = TabController(length: 2, vsync: this);
     _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
       timeNow = DateTime.now();
@@ -55,14 +56,15 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
             final recMess = c[i].payload as MqttPublishMessage;
             final pt = MqttPublishPayload.bytesToStringAsString(
                 recMess.payload.message);
-            setState(() {
-              if (c[i].topic == "HUMI") doam = pt;
-              if (c[i].topic == "TEMP") nhietdo = pt;
-            });
+            // setState(() {
+            if (c[i].topic == "HUMI") doam = pt;
+            if (c[i].topic == "TEMP") nhietdo = pt;
+            // });
           }
         });
       }
     });
+
     //  _firebaseMessaging.configure(
     //     onMessage: (message) async{
     //       setState(() {
@@ -82,21 +84,28 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     super.initState();
   }
 
+  void init() {
+    concectBroker(disconnect: () {
+      setState(() {
+        connect = false;
+      });
+    }, connect: () {
+      setState(() {
+        connect = true;
+      });
+    });
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    client.disconnect();
+    // TODO: implement disposes
+
+    // client.disconnect();
     super.dispose();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
   void disconect() {
-    client.disconnect();
+    // client.disconnect();
   }
 
   @override
