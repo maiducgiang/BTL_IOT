@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workmanager_example/const.dart';
+import 'package:workmanager_example/cubit/main_cubit.dart';
 import 'package:workmanager_example/ui/board/board_screen.dart';
 import 'package:workmanager_example/ui/profile/profile_screen.dart';
 import 'package:workmanager_example/ui/sensorScreen/sensor_screen.dart';

@@ -7,6 +7,7 @@ part 'broad_state.freezed.dart';
 class BroadState with _$BroadState {
   const factory BroadState(
       {required bool isLoading,
+      required bool isDestroy,
       required List<BoardModelLocal> listBoardLocal,
       String? error}) = _BroadState;
 
@@ -15,6 +16,7 @@ class BroadState with _$BroadState {
   }) =>
       const BroadState(
         listBoardLocal: [],
+        isDestroy: false,
         isLoading: false,
       );
 }

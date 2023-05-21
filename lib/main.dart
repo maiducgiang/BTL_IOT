@@ -13,6 +13,7 @@ void main() async {
   await CacheManager.instance.init();
   runApp(MyApp2());
 }
+
 // Future<void> initializeService() async {
 //   final service = FlutterBackgroundService();
 
@@ -178,10 +179,7 @@ class MyApp2 extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'Poppins'),
-      home: BlocProvider(
-        create: (context) => MainCubit()..init(),
-        child: WelcomeScreen(),
-      ),
+      home: WelcomeScreen(),
     );
   }
 }

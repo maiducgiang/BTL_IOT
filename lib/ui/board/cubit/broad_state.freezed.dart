@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BroadState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isDestroy => throw _privateConstructorUsedError;
   List<BoardModelLocal> get listBoardLocal =>
       throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
@@ -33,7 +34,10 @@ abstract class $BroadStateCopyWith<$Res> {
       _$BroadStateCopyWithImpl<$Res, BroadState>;
   @useResult
   $Res call(
-      {bool isLoading, List<BoardModelLocal> listBoardLocal, String? error});
+      {bool isLoading,
+      bool isDestroy,
+      List<BoardModelLocal> listBoardLocal,
+      String? error});
 }
 
 /// @nodoc
@@ -50,6 +54,7 @@ class _$BroadStateCopyWithImpl<$Res, $Val extends BroadState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isDestroy = null,
     Object? listBoardLocal = null,
     Object? error = freezed,
   }) {
@@ -57,6 +62,10 @@ class _$BroadStateCopyWithImpl<$Res, $Val extends BroadState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDestroy: null == isDestroy
+          ? _value.isDestroy
+          : isDestroy // ignore: cast_nullable_to_non_nullable
               as bool,
       listBoardLocal: null == listBoardLocal
           ? _value.listBoardLocal
@@ -79,7 +88,10 @@ abstract class _$$_BroadStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, List<BoardModelLocal> listBoardLocal, String? error});
+      {bool isLoading,
+      bool isDestroy,
+      List<BoardModelLocal> listBoardLocal,
+      String? error});
 }
 
 /// @nodoc
@@ -94,6 +106,7 @@ class __$$_BroadStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isDestroy = null,
     Object? listBoardLocal = null,
     Object? error = freezed,
   }) {
@@ -101,6 +114,10 @@ class __$$_BroadStateCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDestroy: null == isDestroy
+          ? _value.isDestroy
+          : isDestroy // ignore: cast_nullable_to_non_nullable
               as bool,
       listBoardLocal: null == listBoardLocal
           ? _value._listBoardLocal
@@ -119,12 +136,15 @@ class __$$_BroadStateCopyWithImpl<$Res>
 class _$_BroadState implements _BroadState {
   const _$_BroadState(
       {required this.isLoading,
+      required this.isDestroy,
       required final List<BoardModelLocal> listBoardLocal,
       this.error})
       : _listBoardLocal = listBoardLocal;
 
   @override
   final bool isLoading;
+  @override
+  final bool isDestroy;
   final List<BoardModelLocal> _listBoardLocal;
   @override
   List<BoardModelLocal> get listBoardLocal {
@@ -138,7 +158,7 @@ class _$_BroadState implements _BroadState {
 
   @override
   String toString() {
-    return 'BroadState(isLoading: $isLoading, listBoardLocal: $listBoardLocal, error: $error)';
+    return 'BroadState(isLoading: $isLoading, isDestroy: $isDestroy, listBoardLocal: $listBoardLocal, error: $error)';
   }
 
   @override
@@ -148,13 +168,15 @@ class _$_BroadState implements _BroadState {
             other is _$_BroadState &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isDestroy, isDestroy) ||
+                other.isDestroy == isDestroy) &&
             const DeepCollectionEquality()
                 .equals(other._listBoardLocal, _listBoardLocal) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading,
+  int get hashCode => Object.hash(runtimeType, isLoading, isDestroy,
       const DeepCollectionEquality().hash(_listBoardLocal), error);
 
   @JsonKey(ignore: true)
@@ -167,11 +189,14 @@ class _$_BroadState implements _BroadState {
 abstract class _BroadState implements BroadState {
   const factory _BroadState(
       {required final bool isLoading,
+      required final bool isDestroy,
       required final List<BoardModelLocal> listBoardLocal,
       final String? error}) = _$_BroadState;
 
   @override
   bool get isLoading;
+  @override
+  bool get isDestroy;
   @override
   List<BoardModelLocal> get listBoardLocal;
   @override

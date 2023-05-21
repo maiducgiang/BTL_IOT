@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workmanager_example/const.dart';
+import 'package:workmanager_example/cubit/main_cubit.dart';
+import 'package:workmanager_example/cubit/main_state.dart';
 import 'package:workmanager_example/data/cache_manager.dart';
 import 'package:workmanager_example/extension/date_formatting.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/control_button.dart';
@@ -111,6 +114,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(

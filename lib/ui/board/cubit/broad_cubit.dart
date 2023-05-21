@@ -15,6 +15,7 @@ class BroadCubit extends Cubit<BroadState> {
 
   @override
   Future<void> close() {
+    emit(state.copyWith(isDestroy: true));
     // TODO: implement close
     _timer!.cancel();
     // client.disconnect();
@@ -32,6 +33,7 @@ class BroadCubit extends Cubit<BroadState> {
   }
 
   Future<void> _manageMQTT() async {
+    print("giang push mess LED1 - 0");
     List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
     dataLocal = dataLocal.map((e) {
       DateTime now = DateTime.now();
@@ -77,7 +79,9 @@ class BroadCubit extends Cubit<BroadState> {
         return e;
     }).toList();
     _cacheManager.addAllBoard(dataLocal);
-    emit(state.copyWith(listBoardLocal: dataLocal));
+    state.isDestroy == false
+        ? emit(state.copyWith(listBoardLocal: dataLocal))
+        : null;
   }
 
   Future<void> setStatus(BoardModelLocal boardModelLocal) async {
