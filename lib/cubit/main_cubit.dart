@@ -14,14 +14,15 @@ class MainCubit extends Cubit<MainState> {
   final _cacheManager = CacheManager.instance;
   late Timer? _timer = null;
   void init() async {
-    // _manageMQTT();
-    // _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
-    //   _manageMQTT();
-    //   // });
-    // });
+    _manageMQTT();
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+      _manageMQTT();
+      // });
+    });
   }
 
   Future<void> _manageMQTT() async {
+    pushMess("LED1", "0");
     List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
     dataLocal = dataLocal.map((e) {
       DateTime now = DateTime.now();
