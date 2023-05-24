@@ -123,27 +123,27 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
             children: [
               SizedBox(height: size.height * 0.02),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () async {
-                      await _cacheManager.addUserToCached(null);
-                      setState(() {
-                        Auth().signOut();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WidgetTree()),
-                        );
-                      });
-                    },
-                    child: const Icon(
-                      Icons.menu,
-                      size: 30,
-                      color: kDarkGreyColor,
-                    ),
-                  ),
-                  const Text(
+                  // InkWell(
+                  //   onTap: () async {
+                  //     await _cacheManager.addUserToCached(null);
+                  //     setState(() {
+                  //       Auth().signOut();
+                  //       Navigator.pushReplacement(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => const WidgetTree()),
+                  //       );
+                  //     });
+                  //   },
+                  //   child: const Icon(
+                  //     Icons.menu,
+                  //     size: 30,
+                  //     color: kDarkGreyColor,
+                  //   ),
+                  // ),
+                  Text(
                     'Home',
                     style: TextStyle(
                       color: Colors.black87,
@@ -151,25 +151,25 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                       fontSize: 24,
                     ),
                   ),
-                  Container(
-                    height: size.height * 0.045,
-                    width: size.width * 0.095,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 8,
-                          offset: Offset(3, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.notifications_none,
-                      color: kDarkGreyColor,
-                    ),
-                  )
+                  // Container(
+                  //   height: size.height * 0.045,
+                  //   width: size.width * 0.095,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey.shade50,
+                  //     borderRadius: BorderRadius.circular(30),
+                  //     boxShadow: const [
+                  //       BoxShadow(
+                  //         color: Colors.black12,
+                  //         blurRadius: 8,
+                  //         offset: Offset(3, 3),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   child: const Icon(
+                  //     Icons.notifications_none,
+                  //     color: kDarkGreyColor,
+                  //   ),
+                  // )
                 ],
               ),
               SizedBox(height: size.height * 0.03),
@@ -319,7 +319,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                 ],
               ),
               Container(
-                height: 300,
+                height: 350,
                 child: TabBarView(
                     controller: tabController, children: [Manual(), Auto()]),
               ),

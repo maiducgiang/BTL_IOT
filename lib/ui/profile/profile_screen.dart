@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager_example/constant.dart';
 import 'package:workmanager_example/data/cache_manager.dart';
 import 'package:workmanager_example/ui/auth.dart';
@@ -100,65 +101,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   ItemProfile(
                                     onPress: () {
-                                      showToast();
-                                    },
-                                    title: 'Mật khẩu ứng dụng',
-                                  ),
-                                  ItemProfile(
-                                    onPress: () {
-                                      showToast();
-                                    },
-                                    title: 'Đổi mật khẩu',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const DividerWidget(),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              margin: EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Column(
-                                children: [
-                                  ItemProfile(
-                                    onPress: () {
-                                      showPickerModalPopup(
-                                        context: context,
-                                      ).then((value) => showToast());
-                                    },
-                                    title: 'Màu sắc ứng dụng',
-                                    itemColor: const Color(0xff8686),
-                                  ),
-                                  ItemProfile(
-                                    onPress: () {
-                                      showToast();
-                                    },
-                                    title: 'Phông chữ',
-                                    subtitle: "Be Viet Nam Pro",
-                                  ),
-                                  ItemProfile(
-                                    onPress: () {
-                                      showToast();
-                                    },
-                                    title: 'Ngôn ngữ',
-                                    subtitle: "Tiếng Việt",
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const DividerWidget(),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 14),
-                              margin: EdgeInsets.symmetric(horizontal: 14),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Column(
-                                children: [
-                                  ItemProfile(
-                                    onPress: () {
                                       context
                                           .read<ProfileCubit>()
                                           .writeEvaluate();
@@ -173,17 +115,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   ItemProfile(
                                     onPress: () {
-                                      context
-                                          .read<ProfileCubit>()
-                                          .seeOtherApps();
-                                    },
-                                    title: 'Xem ứng dụng khác',
-                                  ),
-                                  ItemProfile(
-                                    onPress: () {
                                       context.read<ProfileCubit>().contactUs();
                                     },
                                     title: 'Liên hệ với chúng tôi ',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const DividerWidget(),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 14),
+                              margin: EdgeInsets.symmetric(horizontal: 14),
+                              decoration: BoxDecoration(
+                                  color: Colors.red[100],
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Column(
+                                children: [
+                                  ItemProfile(
+                                    colortext: Colors.grey[800],
+                                    onPress: () async {
+                                      await _cacheManager.addUserToCached(null);
+                                      // Obtain shared preferences.
+                                      final SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      List<String> account =
+                                          await prefs.getStringList(
+                                                'accounts',
+                                              ) ??
+                                              [];
+                                      account.add(state.userLocal!.name);
+                                      print(account.toString());
+                                      await prefs.setStringList(
+                                          'accounts', account);
+                                      Fluttertoast.showToast(
+                                          msg: "Xoá tài khoản thành công");
+                                      setState(() {
+                                        Auth().signOut();
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const WidgetTree()),
+                                        );
+                                      });
+                                    },
+                                    title: 'Xoá tài khoản',
                                   ),
                                 ],
                               ),

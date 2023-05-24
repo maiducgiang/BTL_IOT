@@ -1,3 +1,5 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager_example/const.dart';
 import 'package:workmanager_example/data/cache_manager.dart';
 import 'package:workmanager_example/data/model/user_local/user_model_local.dart';
@@ -105,6 +107,22 @@ class _SigninScreenState extends State<SigninScreen> {
                         size: size,
                         title: register == false ? "Đăng nhập" : "Đăng ký",
                         press: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          List<String> account = await prefs.getStringList(
+                                'accounts',
+                              ) ??
+                              [];
+                          account = account.where((element) {
+                                return element
+                                    .contains(emailController.text ?? "");
+                              }).toList() ??
+                              [];
+                          if (account.length > 0) {
+                            Fluttertoast.showToast(
+                                msg: "Tài khoản của bạn đã bị xoá");
+                            return;
+                          }
                           if (register == false) {
                             if (_formKey.currentState!.validate()) {
                               error = await Auth().signInWithEmailAndPassword(
@@ -156,7 +174,27 @@ class _SigninScreenState extends State<SigninScreen> {
                                 ),
                               ],
                             )
-                          : Container(),
+                          : Row(
+                              children: [
+                                const Text('Đã có tài khoản? ',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey)),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      register = false;
+                                    });
+                                  },
+                                  child: Text(' Đăng nhập ngay',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.orange[900],
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            ),
                       const SizedBox(
                         height: 24,
                       ),

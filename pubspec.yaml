@@ -2,6 +2,8 @@ name: workmanager_example
 description: Demonstrates how to use the workmanager plugin.
 publish_to: 'none'
 
+version: 1.0.0+1
+
 environment:
   sdk: ">=2.17.3 <3.0.0"
 
@@ -99,7 +101,6 @@ flutter:
     - assets/images/
     - assets/images/mubaha_logo/
     - assets/images/logo/
-    - assets/images/banner/
     - assets/images/error/
     - assets/images/category/
     - assets/images/icons/
