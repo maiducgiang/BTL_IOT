@@ -33,7 +33,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
 
   String doam = "0";
   String nhietdo = "0";
-  late Timer _timer;
+  late Timer? _timer = null;
   String messageTitle = "Empty";
   String notificationAlert = "alert";
   late TabController tabController;
@@ -100,7 +100,10 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
 
     print("dispose");
     // client.disconnect();
-    _timer.cancel();
+    if (_timer != null) {
+      _timer?.cancel();
+    }
+
     super.dispose();
   }
 
