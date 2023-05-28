@@ -1,28 +1,21 @@
 import 'dart:async';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:workmanager_example/const.dart';
-import 'package:workmanager_example/cubit/main_cubit.dart';
-import 'package:workmanager_example/cubit/main_state.dart';
 import 'package:workmanager_example/data/cache_manager.dart';
 import 'package:workmanager_example/extension/date_formatting.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/control_button.dart';
-import 'package:workmanager_example/ui/LandingScreen/landing_screen.dart';
-import 'package:workmanager_example/ui/auth.dart';
 import 'package:workmanager_example/ui/connect_host/connect_host.dart';
-import 'package:workmanager_example/ui/get_time/get_time.dart';
 import 'package:workmanager_example/ui/sensorScreen/widget/card.dart';
 import 'package:workmanager_example/ui/sensorScreen/widget/custome_cupertino_alert.dart';
 import 'package:workmanager_example/ui/sensorScreen/widget/status_button.dart';
-import 'package:workmanager_example/ui/signin/widget_tree.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
 class SensorScreenBody extends StatefulWidget {
   @override
   _SensorScreenBodyState createState() => _SensorScreenBodyState();
 }
+
+bool connectServer = false;
 
 class _SensorScreenBodyState extends State<SensorScreenBody>
     with TickerProviderStateMixin {
@@ -50,7 +43,9 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
 
   @override
   void initState() {
-    init();
+    if (connectServer == false) {
+      init();
+    }
     tabController = TabController(length: 2, vsync: this);
     // _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
     timeNow = DateTime.now();
@@ -61,7 +56,6 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
           final recMess = c[i].payload as MqttPublishMessage;
           final pt =
               MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-
           setState(() {
             if (c[i].topic == "HUMI") doam = pt;
             if (c[i].topic == "TEMP") nhietdo = pt;
@@ -81,6 +75,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     }, connect: () {
       setState(() {
         connect = true;
+        connectServer = true;
       });
     });
   }
@@ -92,7 +87,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
 
     // });
 
-    client.disconnect();
+    // client.disconnect();
     // _timer.cancel();
     super.dispose();
   }

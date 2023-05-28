@@ -1,24 +1,18 @@
 import 'dart:async';
-import 'dart:typed_data';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:workmanager_example/const.dart';
 import 'package:workmanager_example/constant.dart';
-import 'package:workmanager_example/extension/date_formatting.dart';
+
 import 'package:workmanager_example/ui/board/cubit/broad_cubit.dart';
 import 'package:workmanager_example/ui/board/cubit/broad_state.dart';
 import 'package:workmanager_example/ui/board/demo_screen.dart';
 import 'package:workmanager_example/ui/connect_host/connect_host.dart';
-import 'package:workmanager_example/ui/detail_board/detail_board.dart';
 import 'package:workmanager_example/ui/edit_board/edit_board_screen.dart';
-import 'package:workmanager_example/ui/image/image_screen.dart';
-import 'package:workmanager_example/ui/router/router.gr.dart';
 import 'package:workmanager_example/ui/theme.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:path/path.dart' as p;
@@ -48,7 +42,7 @@ class _BoardScreenState extends State<BoardScreen> {
   }
 
   void init() {
-    concectBroker(disconnect: () {}, connect: () {});
+    // concectBroker(disconnect: () {}, connect: () {});
   }
 
   void nextScreen() {

@@ -45,7 +45,6 @@ class BroadCubit extends Cubit<BroadState> {
         int secondNow = hnow * 3600 + mnow * 60;
         int secondModel = hModel * 3600 + mModel * 60;
         if (e.isEnable == true && secondNow > secondModel) {
-          /*
           switch (e.model) {
             //"Đèn", "Quạt", "Cửa sổ"
             //"Tắt", "Mở", "Tự động"
@@ -74,7 +73,7 @@ class BroadCubit extends Cubit<BroadState> {
                 pushMess("ADOOR", "1");
               }
               break;
-          }*/
+          }
 
           return e.copyWith(isEnable: false);
         } else
