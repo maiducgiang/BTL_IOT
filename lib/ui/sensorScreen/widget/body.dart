@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:workmanager_example/data/cache_manager.dart';
+import 'package:workmanager_example/data/model/user_local/user_model_local.dart';
 import 'package:workmanager_example/extension/date_formatting.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/control_button.dart';
 import 'package:workmanager_example/ui/connect_host/connect_host.dart';
@@ -37,6 +38,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   String notificationAlert = "alert";
   late TabController tabController;
   final CacheManager _cacheManager = CacheManager.instance;
+  late UserLocal? userLocal = null;
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   bool checkClose = false;
@@ -47,27 +49,39 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
       init();
     }
     tabController = TabController(length: 2, vsync: this);
-    // _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
-    timeNow = DateTime.now();
-    print("maiducgiang delay" + doam + " " + nhietdo);
-    if (connect == true) {
-      client?.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-        for (int i = 0; i < c!.length; i++) {
-          final recMess = c[i].payload as MqttPublishMessage;
-          final pt =
-              MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+    //
+    Timer(Duration(seconds: 5), () {
+      print("maiducgiang delay" + doam + " " + nhietdo);
+      String doamget = '0';
+      String nhietdoget = '0';
+      if (connect == true) {
+        client?.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+          print("maiducgiang delay" + c.toString());
+          for (int i = 0; i < c!.length; i++) {
+            final recMess = c[i].payload as MqttPublishMessage;
+            final pt = MqttPublishPayload.bytesToStringAsString(
+                recMess.payload.message);
+            // setState(() {
+            if (c[i].topic == "HUMI") doamget = pt;
+            if (c[i].topic == "TEMP") nhietdoget = pt;
+            // });
+          }
+        });
+        _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
           setState(() {
-            if (c[i].topic == "HUMI") doam = pt;
-            if (c[i].topic == "TEMP") nhietdo = pt;
+            doam = doamget;
+            nhietdo = nhietdoget;
           });
-        }
-      });
-    }
-
+        });
+      }
+    });
     super.initState();
   }
 
-  void init() {
+  void init() async {
+    // setState(() async {
+    userLocal = await _cacheManager.getUserCached();
+    // });
     concectBroker(disconnect: () {
       setState(() {
         connect = false;
@@ -83,12 +97,10 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   @override
   void dispose() {
     // TODO: implement disposes
-    // setState(() {
 
-    // });
-
+    print("dispose");
     // client.disconnect();
-    // _timer.cancel();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -166,7 +178,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset(
-                        "assets/avata.jpeg",
+                        "assets/avatar.jpeg",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -183,8 +195,8 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const Text(
-                        'Xin chào!\nGiang',
+                      Text(
+                        'Xin chào!\n${userLocal != null ? userLocal!.name.split("@")[0] : "Giang"}',
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
