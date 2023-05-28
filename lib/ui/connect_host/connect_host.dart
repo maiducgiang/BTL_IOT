@@ -50,7 +50,7 @@ Future<int> concectBroker({Function? connect, Function? disconnect}) async {
   client.keepAlivePeriod = 20;
 
   /// The connection timeout period can be set if needed, the default is 5 seconds.
-  client.connectTimeoutPeriod = 2000; // milliseconds
+  client.connectTimeoutPeriod = 10000; // milliseconds
 
   /// Add the unsolicited disconnection callback
   client.onDisconnected = onDisconnected;

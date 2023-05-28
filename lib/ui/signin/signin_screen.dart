@@ -5,6 +5,7 @@ import 'package:workmanager_example/data/cache_manager.dart';
 import 'package:workmanager_example/data/model/user_local/user_model_local.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/default_button.dart';
 import 'package:workmanager_example/ui/auth.dart';
+import 'package:workmanager_example/ui/signin/forgot_password_screen.dart';
 import 'package:workmanager_example/ui/signin/widget/forgot_password_screen.dart';
 import 'package:workmanager_example/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class SigninScreen extends StatefulWidget {
   State<SigninScreen> createState() => _SigninScreenState();
 }
 
-enum AuthMode { login, register }
+enum AuthMode { login, register, forgotPass }
 
 class _SigninScreenState extends State<SigninScreen> {
   var items = ['Viet Nam', 'English'];
@@ -90,7 +91,14 @@ class _SigninScreenState extends State<SigninScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 GestureDetector(
-                                  onTap: (() {}),
+                                  onTap: (() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ForgotPasswordGmailScreen()),
+                                    );
+                                  }),
                                   child: Text(' Quyên mật khẩu?',
                                       style: TextStyle(
                                           fontSize: 14,
@@ -132,7 +140,13 @@ class _SigninScreenState extends State<SigninScreen> {
                               _cacheManager.addUserToCached(UserLocal(
                                   name: emailController.text,
                                   phone: passwordController.text));
-                              setState(() {});
+                              print(error);
+                              setState(() {
+                                if (error != null && error!.isNotEmpty) {
+                                  List<String> a = error!.split("]");
+                                  error = a[1];
+                                }
+                              });
                             }
                           } else {
                             if (_formKey.currentState!.validate()) {

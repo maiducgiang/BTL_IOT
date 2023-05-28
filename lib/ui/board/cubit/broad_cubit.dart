@@ -33,55 +33,60 @@ class BroadCubit extends Cubit<BroadState> {
   }
 
   Future<void> _manageMQTT() async {
-    print("giang push mess LED1 - 0");
-    List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
-    dataLocal = dataLocal.map((e) {
-      DateTime now = DateTime.now();
-      var hnow = now.hour;
-      var mnow = now.minute;
-      int hModel = (e.timeDuration! / 60).toInt();
-      int mModel = e.timeDuration! % 60;
-      int secondNow = hnow * 3600 + mnow * 60;
-      int secondModel = hModel * 3600 + mModel * 60;
-      if (e.isEnable == true && secondNow > secondModel) {
-        switch (e.model) {
-          //"Đèn", "Quạt", "Cửa sổ"
-          //"Tắt", "Mở", "Tự động"
-          case "Đèn":
-            if (e.statusModel == "Tắt") {
-              pushMess("LED1", "0");
-            } else if (e.statusModel == "Mở") {
-              pushMess("LED1", "1");
-            } else {}
-            break;
-          case "Quạt":
-            if (e.statusModel == "Tắt") {
-              pushMess("FAN", "0");
-            } else if (e.statusModel == "Mở") {
-              pushMess("FAN", "1");
-            } else {
-              pushMess("AFAN", "1");
-            }
-            break;
-          case "Cửa sổ":
-            if (e.statusModel == "Tắt") {
-              pushMess("DOOR", "0");
-            } else if (e.statusModel == "Mở") {
-              pushMess("DOOR", "1");
-            } else {
-              pushMess("ADOOR", "1");
-            }
-            break;
-        }
+    try {
+      print("giang push mess LED1 - 0");
+      List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
+      dataLocal = dataLocal.map((e) {
+        DateTime now = DateTime.now();
+        var hnow = now.hour;
+        var mnow = now.minute;
+        int hModel = (e.timeDuration! / 60).toInt();
+        int mModel = e.timeDuration! % 60;
+        int secondNow = hnow * 3600 + mnow * 60;
+        int secondModel = hModel * 3600 + mModel * 60;
+        if (e.isEnable == true && secondNow > secondModel) {
+          /*
+          switch (e.model) {
+            //"Đèn", "Quạt", "Cửa sổ"
+            //"Tắt", "Mở", "Tự động"
+            case "Đèn":
+              if (e.statusModel == "Tắt") {
+                pushMess("LED1", "0");
+              } else if (e.statusModel == "Mở") {
+                pushMess("LED1", "1");
+              } else {}
+              break;
+            case "Quạt":
+              if (e.statusModel == "Tắt") {
+                pushMess("FAN", "0");
+              } else if (e.statusModel == "Mở") {
+                pushMess("FAN", "1");
+              } else {
+                pushMess("AFAN", "1");
+              }
+              break;
+            case "Cửa sổ":
+              if (e.statusModel == "Tắt") {
+                pushMess("DOOR", "0");
+              } else if (e.statusModel == "Mở") {
+                pushMess("DOOR", "1");
+              } else {
+                pushMess("ADOOR", "1");
+              }
+              break;
+          }*/
 
-        return e.copyWith(isEnable: false);
-      } else
-        return e;
-    }).toList();
-    _cacheManager.addAllBoard(dataLocal);
-    state.isDestroy == false
-        ? emit(state.copyWith(listBoardLocal: dataLocal))
-        : null;
+          return e.copyWith(isEnable: false);
+        } else
+          return e;
+      }).toList();
+      _cacheManager.addAllBoard(dataLocal);
+      state.isDestroy == false
+          ? emit(state.copyWith(listBoardLocal: dataLocal))
+          : null;
+    } catch (e) {
+      e;
+    }
   }
 
   Future<void> setStatus(BoardModelLocal boardModelLocal) async {

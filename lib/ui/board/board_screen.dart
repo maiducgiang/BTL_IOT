@@ -8,6 +8,7 @@ import 'package:workmanager_example/extension/date_formatting.dart';
 import 'package:workmanager_example/ui/board/cubit/broad_cubit.dart';
 import 'package:workmanager_example/ui/board/cubit/broad_state.dart';
 import 'package:workmanager_example/ui/board/demo_screen.dart';
+import 'package:workmanager_example/ui/connect_host/connect_host.dart';
 import 'package:workmanager_example/ui/detail_board/detail_board.dart';
 import 'package:workmanager_example/ui/edit_board/edit_board_screen.dart';
 import 'package:workmanager_example/ui/image/image_screen.dart';
@@ -37,13 +38,17 @@ class _BoardScreenState extends State<BoardScreen> {
   @override
   void initState() {
     // TODO: implement initState
-
+    init();
     super.initState();
     // Timer(Duration(seconds: 5), () {
     //   nextScreen();
     // });
 
     // _connectToServer();
+  }
+
+  void init() {
+    concectBroker(disconnect: () {}, connect: () {});
   }
 
   void nextScreen() {
@@ -62,7 +67,12 @@ class _BoardScreenState extends State<BoardScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
+    // client.disconnect();
     super.dispose();
+  }
+
+  Future<void> _connectToServer() async {
+    await concectBroker(disconnect: () {}, connect: () {});
   }
   // Future<void> _connectToServer() async {
   //   const config = FlutterBackgroundAndroidConfig(

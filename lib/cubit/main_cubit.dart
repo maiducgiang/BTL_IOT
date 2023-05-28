@@ -15,7 +15,7 @@ class MainCubit extends Cubit<MainState> {
   late Timer? _timer = null;
   void initdata() async {
     print("giang push mess LED1 - 0");
-    pushMess("LED1", "0");
+    // pushMess("LED1", "0");
     print("giang push mess LED1 - 0");
     _manageMQTT();
     _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
@@ -26,7 +26,7 @@ class MainCubit extends Cubit<MainState> {
 
   Future<void> _manageMQTT() async {
     pushMess("LED1", "0");
-    print("giang push mess LED1 - 0");
+    // print("giang push mess LED1 - 0");
     List<BoardModelLocal> dataLocal = await _cacheManager.getAllBoard();
     dataLocal = dataLocal.map((e) {
       DateTime now = DateTime.now();

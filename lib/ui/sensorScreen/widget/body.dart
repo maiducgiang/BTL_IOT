@@ -46,44 +46,30 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   final CacheManager _cacheManager = CacheManager.instance;
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final controller = Get.put(Appcontroller(connect: "false".obs));
+  bool checkClose = false;
+
   @override
   void initState() {
     init();
     tabController = TabController(length: 2, vsync: this);
-    _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
-      timeNow = DateTime.now();
-      // print("maiducgiang delay" + doam + " " + nhietdo);
-      if (connect == true) {
-        client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-          for (int i = 0; i < c!.length; i++) {
-            final recMess = c[i].payload as MqttPublishMessage;
-            final pt = MqttPublishPayload.bytesToStringAsString(
-                recMess.payload.message);
-            // setState(() {
+    // _timer = Timer.periodic(const Duration(milliseconds: 4000), (Timer timer) {
+    timeNow = DateTime.now();
+    print("maiducgiang delay" + doam + " " + nhietdo);
+    if (connect == true) {
+      client?.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+        for (int i = 0; i < c!.length; i++) {
+          final recMess = c[i].payload as MqttPublishMessage;
+          final pt =
+              MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+
+          setState(() {
             if (c[i].topic == "HUMI") doam = pt;
             if (c[i].topic == "TEMP") nhietdo = pt;
-            // });
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
 
-    //  _firebaseMessaging.configure(
-    //     onMessage: (message) async{
-    //       setState(() {
-    //         messageTitle = message["notification"]["title"];
-    //         notificationAlert = "New Notification Alert";
-    //       });
-
-    //     },
-    //     onResume: (message) async{
-    //       setState(() {
-    //         messageTitle = message["data"]["title"];
-    //         notificationAlert = "Application opened from Notification";
-    //       });
-
-    //     },
-    //   );
     super.initState();
   }
 
@@ -102,8 +88,12 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   @override
   void dispose() {
     // TODO: implement disposes
+    // setState(() {
 
-    // client.disconnect();
+    // });
+
+    client.disconnect();
+    // _timer.cancel();
     super.dispose();
   }
 
@@ -219,6 +209,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                       children: [
                         Text(
                           "$nhietdo°",
+                          maxLines: 1,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -231,6 +222,9 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    width: 12,
                   ),
                   Expanded(
                     child: Column(
