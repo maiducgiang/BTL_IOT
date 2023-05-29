@@ -12,7 +12,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheManager.instance.init();
-
+  concectBroker(disconnect: () {
+    // setState(() {
+    //   connect = false;
+    // });
+  }, connect: () {
+    // setState(() {
+    //   connect = true;
+    //   connectServer = true;
+    // });
+  });
   runApp(MyApp2());
 }
 

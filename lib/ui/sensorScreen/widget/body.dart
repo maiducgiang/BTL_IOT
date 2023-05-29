@@ -42,7 +42,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   bool checkClose = false;
-
+  late Timer timerBig;
   @override
   void initState() {
     if (connectServer == false) {
@@ -50,48 +50,55 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     }
     tabController = TabController(length: 2, vsync: this);
     //
-    Timer(Duration(seconds: 5), () {
-      print("maiducgiang delay" + doam + " " + nhietdo);
-      String doamget = '0';
-      String nhietdoget = '0';
-      if (connect == true) {
-        client?.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-          print("maiducgiang delay" + c.toString());
-          for (int i = 0; i < c!.length; i++) {
-            final recMess = c[i].payload as MqttPublishMessage;
-            final pt = MqttPublishPayload.bytesToStringAsString(
-                recMess.payload.message);
-            // setState(() {
-            if (c[i].topic == "HUMI") doamget = pt;
-            if (c[i].topic == "TEMP") nhietdoget = pt;
-            // });
-          }
-        });
-        _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-          setState(() {
-            doam = doamget;
-            nhietdo = nhietdoget;
-          });
-        });
-      }
-    });
+    // timerBig = Timer(Duration(seconds: 5), () {
+    //   print("maiducgiang delay" + doam + " " + nhietdo);
+    //   String doamget = '0';
+    //   String nhietdoget = '0';
+    //   if (connect == true) {
+    //     client?.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+    //       print("maiducgiang delay" + c.toString());
+    //       for (int i = 0; i < c!.length; i++) {
+    //         final recMess = c[i].payload as MqttPublishMessage;
+    //         final pt = MqttPublishPayload.bytesToStringAsString(
+    //             recMess.payload.message);
+    //         // setState(() {
+    //         if (c[i].topic == "HUMI") doamget = pt;
+    //         if (c[i].topic == "TEMP") nhietdoget = pt;
+    //         // });
+    //       }
+    //     });
+    //     _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+    //       setState(() {
+    //         doam = doamget;
+    //         nhietdo = nhietdoget;
+    //       });
+    //     });
+    //   }
+    // });
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant SensorScreenBody oldWidget) {
+    // TODO: implement didUpdateWidget
+
+    super.didUpdateWidget(oldWidget);
   }
 
   void init() async {
     // setState(() async {
     userLocal = await _cacheManager.getUserCached();
     // });
-    concectBroker(disconnect: () {
-      setState(() {
-        connect = false;
-      });
-    }, connect: () {
-      setState(() {
-        connect = true;
-        connectServer = true;
-      });
-    });
+    // concectBroker(disconnect: () {
+    //   setState(() {
+    //     connect = false;
+    //   });
+    // }, connect: () {
+    //   setState(() {
+    //     connect = true;
+    //     connectServer = true;
+    //   });
+    // });
   }
 
   @override
@@ -102,6 +109,9 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
     // client.disconnect();
     if (_timer != null) {
       _timer?.cancel();
+    }
+    if (timerBig != null) {
+      timerBig.cancel();
     }
 
     super.dispose();
@@ -284,7 +294,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                     statusOn: "Connected",
                     statusOff: "Disconected",
                     connected: () async {
-                      await concectBroker(disconnect: () {
+                      concectBroker(disconnect: () {
                         setState(() {
                           connect = false;
                         });
@@ -293,6 +303,39 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                           connect = true;
                         });
                       });
+
+                      if ((_timer == null || _timer?.isActive == false)) {
+                        print("giang");
+                        timerBig = Timer(Duration(seconds: 5), () {
+                          print("maiducgiang delay" + doam + " " + nhietdo);
+                          String doamget = '0';
+                          String nhietdoget = '0';
+                          if (connect == true) {
+                            client?.updates?.listen(
+                                (List<MqttReceivedMessage<MqttMessage?>>? c) {
+                              print("maiducgiang delay" + c.toString());
+                              for (int i = 0; i < c!.length; i++) {
+                                final recMess =
+                                    c[i].payload as MqttPublishMessage;
+                                final pt =
+                                    MqttPublishPayload.bytesToStringAsString(
+                                        recMess.payload.message);
+                                // setState(() {
+                                if (c[i].topic == "HUMI") doamget = pt;
+                                if (c[i].topic == "TEMP") nhietdoget = pt;
+                                // });
+                              }
+                            });
+                            _timer = Timer.periodic(const Duration(seconds: 2),
+                                (Timer timer) {
+                              setState(() {
+                                doam = doamget;
+                                nhietdo = nhietdoget;
+                              });
+                            });
+                          }
+                        });
+                      }
                     },
                     disconect: () async {},
                   ),
