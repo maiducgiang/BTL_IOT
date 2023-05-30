@@ -1,5 +1,4 @@
 import 'package:workmanager_example/data/cache_manager.dart';
-import 'package:workmanager_example/data/model/user_local/user_model_local.dart';
 import 'package:workmanager_example/ui/auth.dart';
 import 'package:workmanager_example/ui/signin/signin_screen.dart';
 import 'package:workmanager_example/ui/signin/widget/forgot_password_screen.dart';

@@ -1,14 +1,10 @@
 import 'dart:async';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager_example/const.dart';
 import 'package:workmanager_example/data/cache_manager.dart';
-import 'package:workmanager_example/data/model/user_local/user_model_local.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/default_button.dart';
 import 'package:workmanager_example/ui/auth.dart';
-import 'package:workmanager_example/ui/signin/signin_screen.dart';
-import 'package:workmanager_example/ui/signin/widget/forgot_password_screen.dart';
 import 'package:workmanager_example/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
 

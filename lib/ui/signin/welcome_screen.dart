@@ -1,11 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:workmanager_example/ui/LandingScreen/components/default_button.dart';
 import 'package:workmanager_example/ui/auth.dart';
-import 'package:workmanager_example/ui/signin/signin_screen.dart';
 import 'package:workmanager_example/ui/signin/widget_tree.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widget/page_view_welcome.dart';
 
