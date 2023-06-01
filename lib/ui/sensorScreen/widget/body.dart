@@ -294,15 +294,16 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
                     statusOn: "Connected",
                     statusOff: "Disconected",
                     connected: () async {
-                      concectBroker(disconnect: () {
-                        setState(() {
-                          connect = false;
-                        });
-                      }, connect: () {
-                        setState(() {
-                          connect = true;
-                        });
+                      setState(() {
+                        connect = true;
                       });
+                      concectBroker(
+                          disconnect: () {
+                            // setState(() {
+                            //   connect = false;
+                            // });
+                          },
+                          connect: () {});
 
                       if ((_timer == null || _timer?.isActive == false)) {
                         print("giang");
