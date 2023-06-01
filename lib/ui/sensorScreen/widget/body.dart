@@ -42,7 +42,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final controller = Get.put(Appcontroller(connect: "false".obs));
   bool checkClose = false;
-  late Timer timerBig;
+  late Timer? timerBig = null;
   @override
   void initState() {
     if (connectServer == false) {
@@ -111,7 +111,7 @@ class _SensorScreenBodyState extends State<SensorScreenBody>
       _timer?.cancel();
     }
     if (timerBig != null) {
-      timerBig.cancel();
+      timerBig?.cancel();
     }
 
     super.dispose();

@@ -33,9 +33,9 @@ class _MainScreenState extends State<MainScreen> {
 
   final _screenList = [
     // GetIt.I.registerSingleton<SensorScreen>(SensorScreen()),
-    SensorScreen(),
-    GetIt.I.registerSingleton<BoardScreen>(BoardScreen()),
-    GetIt.I.registerSingleton<ProfileScreen>(ProfileScreen()),
+    SensorScreen(), BoardScreen(), ProfileScreen()
+    // GetIt.I.registerSingleton<BoardScreen>(BoardScreen()),
+    // GetIt.I.registerSingleton<ProfileScreen>(ProfileScreen()),
     // const BoardScreen(),
     // ProfileScreen()
   ];

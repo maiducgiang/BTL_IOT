@@ -14,6 +14,22 @@ class WidgetTree extends StatefulWidget {
 
 class _WidgetTreeState extends State<WidgetTree> {
   final CacheManager _cacheManager = CacheManager.instance;
+  var checkLogin = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  init() async {
+    var a = await _cacheManager.getUserCached();
+    if (a != null) {
+      setState(() {
+        checkLogin = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -21,11 +37,15 @@ class _WidgetTreeState extends State<WidgetTree> {
       builder: (context, AsyncSnapshot<User?> snapshot) {
         // print(snapshot.data?.uid.toString());
         print(snapshot);
+        init();
         var data = snapshot.data;
         if (snapshot.hasData) {
           // await _cacheManager
           //     .addUserToCached(UserLocal(name: data!.email ?? "", phone: ""));
-          return const ForgotPasswordScreen();
+          if (checkLogin) {
+            return const ForgotPasswordScreen();
+          } else
+            return const SigninScreen();
         } else {
           return const SigninScreen();
         }
