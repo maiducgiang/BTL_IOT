@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>853372821213-4rlqcsvskp06100h45jrqblsj5hts73c.apps.googleusercontent.com</string>
+	<string>853372821213-fi3sv0308sgbpbt1pmiq7om1p10eiig3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.853372821213-4rlqcsvskp06100h45jrqblsj5hts73c</string>
+	<string>com.googleusercontent.apps.853372821213-fi3sv0308sgbpbt1pmiq7om1p10eiig3</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>853372821213-i9061ra5vdp5sc1sr9856okm4bio5d0i.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.iothome.manageiohome</string>
+	<string>com.ku.iothome</string>
 	<key>PROJECT_ID</key>
 	<string>app-chat-c3e6c</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:853372821213:ios:78825c63d2069674820534</string>
+	<string>1:853372821213:ios:53167654deec7a65820534</string>
 </dict>
 </plist>
